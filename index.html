@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MMO SYSTEM - PRO MAX</title>
+    <title>MMO SYSTEM - VERSION 335</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -18,63 +19,300 @@
             --text-gray: #888888;
         }
 
-        body { background-color: var(--bg-black); color: var(--text-white); font-family: 'Segoe UI', sans-serif; margin: 0; overflow: hidden; }
+        /* --- RESET & CẤU TRÚC CHÍNH --- */
+        body { 
+            background-color: var(--bg-black); 
+            color: var(--text-white); 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 0;
+            overflow: hidden; 
+        }
 
-        /* --- AUTH SECTION --- */
-        .auth-container { display: flex; justify-content: center; align-items: center; height: 100vh; background: radial-gradient(circle at center, #1a0a0f 0%, #050505 100%); }
-        .auth-card { background: var(--bg-card); padding: 30px; border-radius: 15px; border: 1px solid #1a1a1f; width: 100%; max-width: 350px; text-align: center; }
-        .auth-header { font-weight: 900; background: linear-gradient(to right, var(--neon-pink), var(--neon-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; font-size: 2.2rem; letter-spacing: 2px; }
-        .form-control { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: white; margin-bottom: 12px; font-size: 0.9rem; }
-        .btn-main { background: linear-gradient(45deg, var(--neon-pink), var(--neon-orange)); color: white !important; font-weight: bold; border: none; padding: 10px; width: 100%; border-radius: 5px; transition: 0.3s; cursor: pointer; }
-        .btn-main:hover { opacity: 0.9; transform: scale(1.02); }
+        /* --- MÀN HÌNH ĐĂNG NHẬP (AUTH) --- */
+        .auth-container { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            background: radial-gradient(circle at center, #1a0a0f 0%, #050505 100%); 
+        }
 
-        /* --- DASHBOARD LAYOUT --- */
-        .dashboard-layout { display: none; height: 100vh; width: 100vw; }
-        .sidebar { width: 200px; min-width: 200px; background: var(--bg-card); border-right: 1px solid #1a1a1f; display: flex; flex-direction: column; padding: 15px; transition: 0.3s ease; }
-        .sidebar.hidden { margin-left: -200px; }
-        .sidebar-brand { font-size: 1.1rem; font-weight: 900; color: var(--neon-orange); margin-bottom: 40px; text-align: center; letter-spacing: 2px; }
+        .auth-card { 
+            background: var(--bg-card); 
+            padding: 40px; 
+            border-radius: 20px; 
+            border: 1px solid #1a1a1f; 
+            width: 100%; 
+            max-width: 380px; 
+            text-align: center; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .auth-header { 
+            font-weight: 900; 
+            background: linear-gradient(to right, var(--neon-pink), var(--neon-orange)); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            margin-bottom: 30px; 
+            font-size: 2.5rem; 
+            letter-spacing: 3px; 
+        }
+
+        .form-control { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: white !important; 
+            margin-bottom: 15px; 
+            padding: 12px;
+            font-size: 0.9rem; 
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--neon-pink);
+            box-shadow: none;
+        }
+
+        /* FIX LỖI CHECKBOX KHÔNG TÍCH ĐƯỢC */
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .form-check-input { 
+            width: 18px;
+            height: 18px;
+            cursor: pointer; 
+            border: 1px solid #555; 
+            background-color: transparent; 
+            margin-right: 10px;
+        }
+
+        .form-check-input:checked { 
+            background-color: var(--neon-pink); 
+            border-color: var(--neon-pink); 
+        }
+
+        .btn-main { 
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-orange)); 
+            color: white !important; 
+            font-weight: bold; 
+            border: none; 
+            padding: 12px; 
+            width: 100%; 
+            border-radius: 8px; 
+            transition: 0.3s; 
+            cursor: pointer; 
+            text-transform: uppercase;
+        }
+
+        .btn-main:hover { 
+            opacity: 0.9; 
+            transform: translateY(-2px); 
+            box-shadow: 0 5px 15px rgba(255, 0, 127, 0.3);
+        }
+
+        /* --- GIAO DIỆN DASHBOARD --- */
+        .dashboard-layout { 
+            display: none; 
+            height: 100vh; 
+            width: 100vw; 
+        }
+
+        .sidebar { 
+            width: 230px; 
+            min-width: 230px; 
+            background: var(--bg-card); 
+            border-right: 1px solid #1a1a1f; 
+            display: flex; 
+            flex-direction: column; 
+            padding: 20px; 
+            transition: 0.3s ease; 
+        }
+
+        .sidebar.hidden { margin-left: -230px; }
+
+        .sidebar-brand { 
+            font-size: 1.3rem; 
+            font-weight: 900; 
+            color: var(--neon-orange); 
+            margin-bottom: 50px; 
+            text-align: center; 
+            letter-spacing: 2px; 
+        }
         
-        .nav-item { color: var(--text-gray); text-decoration: none; padding: 12px 15px; margin-bottom: 8px; border-radius: 8px; display: flex; align-items: center; font-size: 0.85rem; cursor: pointer; }
-        .nav-item i { margin-right: 12px; width: 18px; text-align: center; }
-        .nav-item:hover, .nav-item.active { color: var(--neon-pink); background: rgba(255, 0, 127, 0.05); }
+        .nav-item { 
+            color: var(--text-gray); 
+            text-decoration: none; 
+            padding: 14px 18px; 
+            margin-bottom: 10px; 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            font-size: 0.9rem; 
+            cursor: pointer; 
+            transition: 0.2s;
+        }
 
-        .content-area { flex-grow: 1; padding: 25px; overflow-y: auto; background: #08080a; position: relative; }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .nav-item i { margin-right: 15px; width: 20px; text-align: center; font-size: 1.1rem; }
 
-        /* HOME CONTENT */
-        .home-center { max-width: 800px; margin: 40px auto; text-align: center; animation: fadeIn 0.6s ease; }
-        .big-balance-card { background: var(--bg-card); padding: 50px 20px; border-radius: 25px; border: 1px solid #1a1a1f; margin-bottom: 30px; position: relative; overflow: hidden; }
-        .big-balance-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(to right, var(--neon-pink), var(--neon-orange)); }
-        .big-balance-card h2 { font-size: 3.8rem; font-weight: 900; margin: 15px 0; color: #fff; text-shadow: 0 0 20px rgba(255, 255, 255, 0.1); }
-        .chart-container { background: var(--bg-card); padding: 25px; border-radius: 25px; border: 1px solid #1a1a1f; }
+        .nav-item:hover, .nav-item.active { 
+            color: var(--neon-pink); 
+            background: rgba(255, 0, 127, 0.08); 
+        }
 
-        .tab-pane { display: none; animation: fadeIn 0.4s ease; }
+        .content-area { 
+            flex-grow: 1; 
+            padding: 30px; 
+            overflow-y: auto; 
+            background: #08080a; 
+            position: relative; 
+        }
+
+        .top-bar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 40px; 
+        }
+
+        /* --- NỘI DUNG CHI TIẾT --- */
+        .home-center { 
+            max-width: 850px; 
+            margin: 20px auto; 
+            text-align: center; 
+            animation: fadeIn 0.8s ease; 
+        }
+
+        .big-balance-card { 
+            background: var(--bg-card); 
+            padding: 60px 20px; 
+            border-radius: 30px; 
+            border: 1px solid #1a1a1f; 
+            margin-bottom: 40px; 
+            position: relative; 
+            overflow: hidden; 
+        }
+
+        .big-balance-card::before { 
+            content: ""; 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 5px; 
+            background: linear-gradient(to right, var(--neon-pink), var(--neon-orange)); 
+        }
+
+        .big-balance-card h2 { 
+            font-size: 4rem; 
+            font-weight: 900; 
+            margin: 20px 0; 
+            color: #fff; 
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1); 
+        }
+
+        .chart-container { 
+            background: var(--bg-card); 
+            padding: 30px; 
+            border-radius: 30px; 
+            border: 1px solid #1a1a1f; 
+        }
+
+        .tab-pane { display: none; animation: fadeIn 0.5s ease; }
         .tab-pane.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
 
         /* TABLE */
-        .h-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
-        .h-table th { color: var(--text-gray); font-size: 0.7rem; text-transform: uppercase; padding: 0 15px; }
-        .h-table td { background: var(--bg-card); padding: 12px 15px; font-size: 0.85rem; border: 1px solid #1a1a1f; border-style: solid none; }
-        .h-table td:first-child { border-left-style: solid; border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
-        .h-table td:last-child { border-right-style: solid; border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+        .h-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+        .h-table th { color: var(--text-gray); font-size: 0.75rem; text-transform: uppercase; padding: 0 20px; }
+        .h-table td { 
+            background: var(--bg-card); 
+            padding: 15px 20px; 
+            font-size: 0.9rem; 
+            border: 1px solid #1a1a1f; 
+            border-style: solid none; 
+        }
+        .h-table td:first-child { border-left-style: solid; border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
+        .h-table td:last-child { border-right-style: solid; border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
 
-        /* LINK BOX */
-        .link-box { background: #111; border-radius: 10px; border: 1px solid #333; display: flex; overflow: hidden; margin-top: 20px; }
-        .link-box input { background: transparent; border: none; color: var(--neon-orange); padding: 15px; flex-grow: 1; outline: none; font-size: 0.9rem; }
-        .btn-copy { background: var(--neon-orange); border: none; color: white; padding: 0 20px; cursor: pointer; }
+        /* GIỚI THIỆU */
+        .link-box { 
+            background: #111; 
+            border-radius: 12px; 
+            border: 1px solid #333; 
+            display: flex; 
+            overflow: hidden; 
+            margin-top: 25px; 
+        }
+        .link-box input { 
+            background: transparent; 
+            border: none; 
+            color: var(--neon-orange); 
+            padding: 18px; 
+            flex-grow: 1; 
+            outline: none; 
+            font-size: 0.95rem; 
+        }
+        .btn-copy { 
+            background: var(--neon-orange); 
+            border: none; 
+            color: white; 
+            padding: 0 25px; 
+            cursor: pointer; 
+            transition: 0.3s;
+        }
+        .btn-copy:hover { background: #e67e00; }
 
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--neon-pink); padding: 2px; cursor: pointer; }
+        .user-avatar { 
+            width: 45px; 
+            height: 45px; 
+            border-radius: 50%; 
+            border: 2px solid var(--neon-pink); 
+            padding: 3px; 
+            cursor: pointer; 
+        }
         
-        /* MODALS */
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:none; justify-content:center; align-items:center; z-index:2000; }
-        .modal-card { background: var(--bg-card); padding: 30px; border-radius: 20px; border: 1px solid var(--neon-orange); width: 350px; text-align: center; position: relative; }
-        .close-x { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: var(--text-gray); cursor: pointer; }
-        .close-x:hover { color: white; }
+        /* --- CÁC LOẠI MODAL (POPUP) --- */
+        .modal-overlay { 
+            position: fixed; 
+            top:0; left:0; 
+            width:100%; height:100%; 
+            background: rgba(0,0,0,0.85); 
+            display: none; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 9999; 
+            backdrop-filter: blur(5px);
+        }
 
-        /* CHECKBOX FIX */
-        .form-check-input { cursor: pointer; border: 1px solid #555; background-color: transparent; }
-        .form-check-input:checked { background-color: var(--neon-pink); border-color: var(--neon-pink); }
+        .modal-card { 
+            background: var(--bg-card); 
+            padding: 40px; 
+            border-radius: 25px; 
+            border: 1px solid var(--neon-orange); 
+            width: 400px; 
+            text-align: center; 
+            position: relative; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+
+        .close-x { 
+            position: absolute; 
+            top: 20px; 
+            right: 25px; 
+            font-size: 1.8rem; 
+            color: var(--text-gray); 
+            cursor: pointer; 
+            line-height: 1;
+        }
+        .close-x:hover { color: var(--neon-pink); }
+
     </style>
 </head>
 <body>
@@ -82,22 +320,27 @@
     <div id="authScreen" class="auth-container">
         <div class="auth-card">
             <h1 class="auth-header">MMO</h1>
+            
             <div id="loginForm">
-                <input type="email" id="emailL" class="form-control" placeholder="Email">
-                <input type="password" id="passL" class="form-control" placeholder="Mật khẩu">
-                <div class="form-check text-start mb-3">
+                <input type="email" id="emailL" class="form-control" placeholder="Email người dùng">
+                <input type="password" id="passL" class="form-control" placeholder="Mật khẩu truy cập">
+                
+                <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="saveLogin">
-                    <label class="form-check-label small text-gray ms-2" for="saveLogin">Lưu đăng nhập</label>
+                    <label class="form-check-label small text-gray" for="saveLogin">Duy trì đăng nhập</label>
                 </div>
-                <button class="btn-main mb-3" onclick="handleLogin()">ĐĂNG NHẬP</button>
-                <p class="small text-gray">Người mới? <span class="text-white fw-bold" style="cursor:pointer" onclick="toggleAuth(true)">Đăng ký ngay</span></p>
+                
+                <button class="btn-main mb-3" onclick="handleLogin()">Đăng nhập hệ thống</button>
+                <p class="small text-gray">Bạn chưa có tài khoản? <span class="text-white fw-bold" style="cursor:pointer" onclick="toggleAuth(true)">Đăng ký ngay</span></p>
             </div>
+
             <div id="regForm" style="display:none">
-                <input type="text" id="nameR" class="form-control" placeholder="Họ và Tên">
-                <input type="email" id="emailR" class="form-control" placeholder="Email">
-                <input type="password" id="passR" class="form-control" placeholder="Mật khẩu">
-                <button class="btn-main mb-3" onclick="handleRegister()">XÁC NHẬN ĐĂNG KÝ</button>
-                <p class="small text-gray">Đã có tài khoản? <span class="text-white fw-bold" style="cursor:pointer" onclick="toggleAuth(false)">Đăng nhập</span></p>
+                <input type="text" id="nameR" class="form-control" placeholder="Họ và Tên của bạn">
+                <input type="email" id="emailR" class="form-control" placeholder="Địa chỉ Email">
+                <input type="password" id="passR" class="form-control" placeholder="Tạo mật khẩu">
+                
+                <button class="btn-main mb-3" onclick="handleRegister()">Xác nhận đăng ký</button>
+                <p class="small text-gray">Đã có tài khoản? <span class="text-white fw-bold" style="cursor:pointer" onclick="toggleAuth(false)">Quay lại Đăng nhập</span></p>
             </div>
         </div>
     </div>
@@ -105,204 +348,60 @@
     <div id="dashScreen" class="dashboard-layout">
         <div id="sideBar" class="sidebar">
             <div class="sidebar-brand">MMO SYSTEM</div>
+            
             <div class="nav-item active" onclick="switchTab('tabHome', this)"><i class="fas fa-home"></i> Trang chủ</div>
-            <div class="nav-item" onclick="switchTab('tabTask', this)"><i class="fas fa-link"></i> Nhiệm vụ</div>
-            <div class="nav-item" onclick="switchTab('tabHistory', this)"><i class="fas fa-history"></i> Lịch sử</div>
-            <div class="nav-item" onclick="switchTab('tabPay', this)"><i class="fas fa-qrcode"></i> Rút tiền</div>
-            <div class="nav-item" onclick="switchTab('tabRef', this)"><i class="fas fa-globe"></i> Giới thiệu</div>
+            <div class="nav-item" onclick="switchTab('tabTask', this)"><i class="fas fa-tasks"></i> Làm nhiệm vụ</div>
+            <div class="nav-item" onclick="switchTab('tabHistory', this)"><i class="fas fa-history"></i> Lịch sử thu nhập</div>
+            <div class="nav-item" onclick="switchTab('tabPay', this)"><i class="fas fa-wallet"></i> Rút tiền ZaloPay</div>
+            <div class="nav-item" onclick="switchTab('tabRef', this)"><i class="fas fa-share-alt"></i> Giới thiệu bạn bè</div>
         </div>
 
         <div class="content-area">
             <div class="top-bar">
-                <button class="btn btn-outline-secondary btn-sm" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
-                <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=User" class="user-avatar" onclick="location.reload()">
+                <button class="btn btn-outline-secondary btn-sm" onclick="toggleSidebar()"><i class="fas fa-bars"></i> Menu</button>
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="user-avatar" onclick="location.reload()" title="Đăng xuất">
             </div>
 
             <div id="tabHome" class="tab-pane active">
                 <div class="home-center">
                     <div class="big-balance-card">
-                        <small>SỐ DƯ HIỆN TẠI</small>
-                        <h2 id="currentBalance">0 đ</h2>
-                        <div class="mt-3"><span class="badge rounded-pill bg-dark border border-secondary text-success">● Trực tuyến</span></div>
+                        <small style="letter-spacing: 2px; color: var(--text-gray);">TỔNG TÀI SẢN KHẢ DỤNG</small>
+                        <h2 id="currentBalanceDisplay">0 đ</h2>
+                        <div class="mt-3">
+                            <span class="badge rounded-pill bg-dark border border-secondary text-success" style="padding: 8px 15px;">● Hệ thống đang kết nối</span>
+                        </div>
                     </div>
+                    
                     <div class="chart-container">
-                        <h6 class="text-start mb-4 text-gray small"><i class="fas fa-chart-area me-2"></i>THỐNG KÊ THU NHẬP 7 NGÀY</h6>
-                        <canvas id="mmoChart" height="150"></canvas>
+                        <h6 class="text-start mb-4 text-gray small"><i class="fas fa-chart-line me-2"></i>BIỂU ĐỒ HOẠT ĐỘNG (7 NGÀY GẦN NHẤT)</h6>
+                        <canvas id="mainChart" height="160"></canvas>
                     </div>
                 </div>
             </div>
 
             <div id="tabTask" class="tab-pane">
-                <h5 class="mb-4">Nhiệm vụ kiếm tiền</h5>
-                <div style="background:var(--bg-card); padding:20px; border-radius:15px; border-left:4px solid var(--neon-pink); display:flex; justify-content:space-between; align-items:center;">
-                    <div><b>Vượt link rút gọn Level 1</b><br><small class="text-gray">+500đ / lượt thành công</small></div>
-                    <button class="btn btn-sm btn-outline-light" onclick="doWork()">Bắt đầu</button>
+                <h5 class="mb-4">Danh sách nhiệm vụ hôm nay</h5>
+                <div style="background:var(--bg-card); padding:25px; border-radius:18px; border-left:5px solid var(--neon-pink); display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <b style="font-size: 1.1rem;">Vượt link rút gọn Level 1</b><br>
+                        <small class="text-gray">Hoàn thành để nhận ngay +500đ vào tài khoản chính.</small>
+                    </div>
+                    <button class="btn btn-sm btn-outline-light px-4" onclick="executeTask()">BẮT ĐẦU</button>
                 </div>
             </div>
 
             <div id="tabHistory" class="tab-pane">
-                <h5 class="mb-4">Nhật ký hoạt động</h5>
+                <h5 class="mb-4">Nhật ký giao dịch cá nhân</h5>
                 <table class="h-table">
-                    <thead><tr><th>Nội dung</th><th>Thời gian</th><th>Số tiền</th></tr></thead>
-                    <tbody id="historyBody"></tbody>
+                    <thead><tr><th>Loại hoạt động</th><th>Thời điểm</th><th>Biến động số dư</th></tr></thead>
+                    <tbody id="historyTableBody">
+                        </tbody>
                 </table>
             </div>
 
             <div id="tabPay" class="tab-pane text-center">
-                <h5 class="mb-4">Rút tiền ZaloPay</h5>
-                <input type="number" id="wdInput" class="form-control" placeholder="Nhập số tiền (Tối thiểu 10.000đ)">
-                <button class="btn-main w-100 mt-3" onclick="requestWithdraw()">GỬI YÊU CẦU</button>
-            </div>
+                <h5 class="mb-4">Rút tiền mặt
 
-            <div id="tabRef" class="tab-pane text-center">
-                <h5 class="mb-4">Mời bạn bè</h5>
-                <div style="background:var(--bg-card); padding:40px; border-radius:25px;">
-                    <p class="small text-gray">Sao chép đường dẫn bên dưới để chia sẻ:</p>
-                    <div class="link-box">
-                        <input type="text" id="refLink" value="https://momo-web-kappa.vercel.app/" readonly>
-                        <button class="btn-copy" onclick="copyRef()"><i class="fas fa-copy"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="homePopup" class="modal-overlay">
-        <div class="modal-card">
-            <span class="close-x" onclick="closeHomePopup()">&times;</span>
-            <h4 class="text-warning mb-3">THÔNG BÁO HỆ THỐNG</h4>
-            <div class="text-start small text-gray mb-4">
-                <p>● Chào mừng bạn đã quay trở lại với MMO SYSTEM.</p>
-                <p>● Cập nhật nhiệm vụ mới với phần thưởng cao hơn.</p>
-                <p>● Rút tiền tối thiểu 10.000đ duyệt lúc 23h.</p>
-            </div>
-            <button class="btn-main" onclick="closeHomePopup()">TÔI ĐÃ HIỂU</button>
-        </div>
-    </div>
-
-    <script>
-        // DỮ LIỆU GIẢ LẬP ĐĂNG KÝ
-        let registeredUser = null;
-        let balance = 0;
-        let chartObj = null;
-        let chartData = [0, 0, 0, 0, 0, 0, 0];
-
-        function toggleAuth(isReg) {
-            document.getElementById('loginForm').style.display = isReg ? 'none' : 'block';
-            document.getElementById('regForm').style.display = isReg ? 'block' : 'none';
-        }
-
-        // LỖI 1: ĐĂNG KÝ XONG QUAY LẠI ĐĂNG NHẬP
-        function handleRegister() {
-            const name = document.getElementById('nameR').value;
-            const email = document.getElementById('emailR').value;
-            const pass = document.getElementById('passR').value;
-
-            if(!name || !email || !pass) { alert("Vui lòng điền đủ thông tin!"); return; }
-
-            // Lưu thông tin tạm thời
-            registeredUser = { email, pass };
-            alert("Đăng ký thành công! Hãy đăng nhập bằng tài khoản vừa tạo.");
-            
-            // Lập tức quay lại form đăng nhập
-            toggleAuth(false);
-            document.getElementById('emailL').value = email; // Điền sẵn cho tiện
-        }
-
-        function handleLogin() {
-            const email = document.getElementById('emailL').value;
-            const pass = document.getElementById('passL').value;
-
-            if(!registeredUser || email !== registeredUser.email || pass !== registeredUser.pass) {
-                alert("Thông tin đăng nhập không chính xác!");
-                return;
-            }
-
-            document.getElementById('authScreen').style.display = 'none';
-            document.getElementById('dashScreen').style.display = 'flex';
-            
-            initChart();
-            checkPopup24h(); // Kiểm tra popup khi vào dashboard
-        }
-
-        // LỖI 2: POPUP TRANG CHỦ & ĐÓNG 24H
-        function checkPopup24h() {
-            const lastClose = localStorage.getItem('popupLastClosed');
-            const now = new Date().getTime();
-            
-            // Nếu chưa bao giờ đóng HOẶC đã quá 24h (24 * 60 * 60 * 1000 ms)
-            if (!lastClose || (now - lastClose > 86400000)) {
-                document.getElementById('homePopup').style.display = 'flex';
-            }
-        }
-
-        function closeHomePopup() {
-            document.getElementById('homePopup').style.display = 'none';
-            localStorage.setItem('popupLastClosed', new Date().getTime());
-        }
-
-        // NHIỆM VỤ
-        function doWork() {
-            alert("Nhiệm vụ hoàn thành! +500đ");
-            balance += 500;
-            document.getElementById('currentBalance').innerText = balance.toLocaleString() + " đ";
-            chartData[6] += 500;
-            chartObj.update();
-            const row = `<tr><td>Vượt link Level 1</td><td>${new Date().toLocaleTimeString()}</td><td class="text-success">+500đ</td></tr>`;
-            document.getElementById('historyBody').insertAdjacentHTML('afterbegin', row);
-        }
-
-        // RÚT TIỀN
-        function requestWithdraw() {
-            const amt = document.getElementById('wdInput').value;
-            if(amt < 10000) { alert("Tối thiểu rút 10.000đ"); return; }
-            if(amt > balance) { alert("Số dư không đủ!"); return; }
-            
-            balance -= amt;
-            document.getElementById('currentBalance').innerText = balance.toLocaleString() + " đ";
-            alert("Đã gửi yêu cầu rút tiền! Hệ thống duyệt lúc 23h.");
-        }
-
-        // COPY GIỚI THIỆU
-        function copyRef() {
-            const input = document.getElementById('refLink');
-            input.select();
-            document.execCommand("copy");
-            alert("Đã sao chép link giới thiệu!");
-        }
-
-        // CÁC HÀM PHỤ
-        function toggleSidebar() { document.getElementById('sideBar').classList.toggle('hidden'); }
-        function switchTab(id, el) {
-            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            el.classList.add('active');
-        }
-
-        function initChart() {
-            const ctx = document.getElementById('mmoChart').getContext('2d');
-            chartObj = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
-                    datasets: [{
-                        data: chartData,
-                        borderColor: '#ff007f',
-                        backgroundColor: 'rgba(255, 0, 127, 0.1)',
-                        fill: true, tension: 0.4, borderWidth: 3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, grid: { color: '#1a1a1f' } }, x: { grid: { display: false } } }
-                }
-            });
-        }
-    </script>
-</body>
-</html>
 
 
 
