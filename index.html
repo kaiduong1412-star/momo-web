@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MMO SYSTEM - PREMIUM VERSION</title>
+    <title>MMO SYSTEM - PREMIUM FIX</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -17,114 +17,132 @@
             --neon-orange: #ff8c00;
             --text-white: #ffffff;
             --text-gray: #888888;
-            --transition: all 0.3s ease;
         }
 
-        body { 
-            background-color: var(--bg-black); 
-            color: var(--text-white); 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; padding: 0;
-            overflow-x: hidden; 
+        /* FIX: Căn giữa toàn bộ trang và không cho cuộn bậy */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
 
-        /* --- AUTH SCREEN --- */
-        .auth-container { display: flex; justify-content: center; align-items: center; height: 100vh; background: radial-gradient(circle at 50% 50%, #1a0a0f 0%, #050505 100%); }
-        .auth-card { background: var(--bg-card); padding: 45px; border-radius: 25px; border: 1px solid #1a1a1f; width: 100%; max-width: 400px; text-align: center; }
-        .auth-header { font-weight: 900; background: linear-gradient(45deg, var(--neon-pink), var(--neon-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 35px; font-size: 2.8rem; letter-spacing: 4px; }
+        /* FIX: Màn hình Login luôn nằm chính giữa */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a0a0f 0%, #050505 100%);
+        }
 
-        .form-control { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: white !important; margin-bottom: 18px; padding: 14px; border-radius: 10px; }
-        .form-control:focus { background: rgba(255, 255, 255, 0.07); border-color: var(--neon-pink); box-shadow: 0 0 10px rgba(255, 0, 127, 0.2); }
+        .auth-card {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 25px;
+            border: 1px solid #1a1a1f;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+        }
 
-        .btn-main { background: linear-gradient(45deg, var(--neon-pink), var(--neon-orange)); color: white !important; font-weight: 800; border: none; padding: 14px; width: 100%; border-radius: 10px; transition: var(--transition); cursor: pointer; text-transform: uppercase; }
-        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255, 0, 127, 0.4); }
+        .auth-header { font-weight: 900; background: linear-gradient(45deg, var(--neon-pink), var(--neon-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.5rem; margin-bottom: 30px; letter-spacing: 3px; }
 
-        /* --- DASHBOARD LAYOUT --- */
-        .dashboard-layout { display: none; min-height: 100vh; width: 100vw; }
-        .sidebar { width: 250px; background: var(--bg-card); border-right: 1px solid #1a1a1f; display: flex; flex-direction: column; padding: 25px; transition: var(--transition); position: fixed; height: 100vh; z-index: 100; }
+        .form-control { background: rgba(255, 255, 255, 0.05); border: 1px solid #222; color: white !important; padding: 12px; border-radius: 10px; margin-bottom: 15px; }
+        .btn-main { background: linear-gradient(45deg, var(--neon-pink), var(--neon-orange)); color: white !important; font-weight: 800; border: none; padding: 12px; width: 100%; border-radius: 10px; transition: 0.3s; text-transform: uppercase; }
+        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255, 0, 127, 0.4); }
+
+        /* DASHBOARD LAYOUT */
+        .dashboard-layout { display: none; min-height: 100vh; }
+        
+        .sidebar { 
+            width: 250px; background: var(--bg-card); border-right: 1px solid #1a1a1f; 
+            padding: 25px; position: fixed; height: 100vh; transition: 0.3s; z-index: 999;
+        }
         .sidebar.hidden { transform: translateX(-250px); }
-        .content-area { flex-grow: 1; padding: 35px; margin-left: 250px; transition: var(--transition); background: #08080a; min-height: 100vh; }
+
+        .content-area { 
+            flex-grow: 1; margin-left: 250px; padding: 30px; 
+            transition: 0.3s; min-height: 100vh; background: #08080a;
+        }
         .content-area.full { margin-left: 0; }
 
-        .sidebar-brand { font-size: 1.4rem; font-weight: 900; color: var(--neon-orange); margin-bottom: 60px; text-align: center; }
-        .nav-item { color: var(--text-gray); text-decoration: none; padding: 15px 20px; margin-bottom: 12px; border-radius: 12px; display: flex; align-items: center; cursor: pointer; }
-        .nav-item i { margin-right: 15px; width: 22px; text-align: center; }
-        .nav-item:hover, .nav-item.active { color: var(--neon-pink); background: rgba(255, 0, 127, 0.07); }
+        .nav-item { color: var(--text-gray); padding: 12px 15px; margin-bottom: 8px; border-radius: 10px; display: flex; align-items: center; cursor: pointer; text-decoration: none; }
+        .nav-item:hover, .nav-item.active { color: var(--neon-pink); background: rgba(255, 0, 127, 0.05); }
+        .nav-item i { margin-right: 12px; width: 20px; text-align: center; }
 
-        /* --- COMPONENTS --- */
-        .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--neon-pink); padding: 3px; cursor: pointer; }
-        .user-dropdown { position: absolute; top: 60px; right: 0; background: var(--bg-card); border: 1px solid #333; border-radius: 15px; width: 200px; display: none; z-index: 1000; }
+        /* AVATAR & DROPDOWN */
+        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--neon-pink); cursor: pointer; }
+        .user-dropdown { position: absolute; top: 60px; right: 0; background: var(--bg-card); border: 1px solid #333; border-radius: 12px; width: 180px; display: none; z-index: 1001; }
         .user-dropdown.active { display: block; }
-        .drop-link { padding: 12px 20px; display: block; color: white; text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid #1a1a1f; }
-        .drop-link:hover { background: rgba(255,255,255,0.05); color: var(--neon-orange); }
+        .drop-link { padding: 10px 15px; display: block; color: white; text-decoration: none; font-size: 0.85rem; border-bottom: 1px solid #1a1a1f; }
 
-        .big-balance-card { background: var(--bg-card); padding: 50px 20px; border-radius: 35px; border: 1px solid #1a1a1f; margin-bottom: 45px; text-align: center; position: relative; overflow: hidden; }
-        .big-balance-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(to right, var(--neon-pink), var(--neon-orange)); }
-
-        .chart-container { background: var(--bg-card); padding: 30px; border-radius: 30px; border: 1px solid #1a1a1f; }
-        .tab-pane { display: none; animation: slideUp 0.5s ease; }
+        /* TAB PANES */
+        .tab-pane { display: none; animation: fadeIn 0.4s ease; }
         .tab-pane.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- YÊU CẦU 2: LỊCH SỬ TÁCH BIỆT --- */
-        .history-tabs { display: flex; gap: 20px; margin-bottom: 20px; border-bottom: 1px solid #222; }
-        .h-tab { padding: 10px 0; cursor: pointer; color: var(--text-gray); position: relative; }
+        /* COMPONENT GỌN ĐẸP */
+        .card-custom { background: var(--bg-card); border-radius: 20px; border: 1px solid #1a1a1f; padding: 25px; margin-bottom: 25px; }
+        
+        /* LỊCH SỬ PHÂN LOẠI */
+        .h-nav { display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #222; }
+        .h-tab { padding: 8px 0; cursor: pointer; color: var(--text-gray); font-size: 0.9rem; }
         .h-tab.active { color: var(--neon-pink); border-bottom: 2px solid var(--neon-pink); }
 
-        /* --- YÊU CẦU 3: QR RÚT TIỀN --- */
-        .qr-upload { border: 2px dashed #444; border-radius: 15px; padding: 20px; cursor: pointer; margin: 15px 0; transition: 0.3s; }
-        .qr-upload:hover { border-color: var(--neon-orange); background: rgba(255,255,255,0.02); }
-        #qrPreview { max-width: 150px; display: none; margin: 10px auto; border-radius: 10px; }
+        /* QR UPLOAD */
+        .qr-box { border: 2px dashed #333; border-radius: 15px; padding: 20px; cursor: pointer; text-align: center; transition: 0.3s; }
+        .qr-box:hover { border-color: var(--neon-orange); background: rgba(255,255,255,0.02); }
+        #qrPreview { max-width: 120px; margin-top: 10px; display: none; border-radius: 8px; margin-left: auto; margin-right: auto; }
 
-        /* --- MODALS --- */
-        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(8px); }
-        .modal-card { background: var(--bg-card); padding: 40px; border-radius: 30px; border: 1px solid var(--neon-orange); width: 420px; text-align: center; position: relative; }
-        
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* MODAL */
+        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(5px); }
+        .modal-card { background: var(--bg-card); padding: 30px; border-radius: 25px; border: 1px solid var(--neon-orange); width: 350px; text-align: center; }
     </style>
 </head>
 <body>
 
     <div id="authScreen" class="auth-container">
         <div class="auth-card">
-            <h1 class="auth-header">MMO</h1>
+            <h1 class="auth-header">MMO PRO</h1>
             <div id="loginForm">
                 <input type="email" id="emailL" class="form-control" placeholder="Email của bạn">
                 <input type="password" id="passL" class="form-control" placeholder="Mật khẩu">
-                <div class="d-flex align-items-center mb-4">
-                    <input type="checkbox" id="saveLogin" style="width:18px; height:18px; accent-color:var(--neon-pink);">
-                    <label for="saveLogin" class="ms-2 small text-gray">Ghi nhớ đăng nhập</label>
-                </div>
-                <button class="btn-main mb-4" onclick="handleLogin()">Đăng nhập ngay</button>
-                <p class="small text-gray">Chưa có tài khoản? <span class="text-white fw-bold" style="cursor:pointer" onclick="toggleAuth(true)">Đăng ký tại đây</span></p>
+                <button class="btn-main mb-3" onclick="handleLogin()">Đăng nhập</button>
+                <p class="small text-gray">Chưa có nick? <span class="text-white fw-bold" style="cursor:pointer" onclick="toggleAuth(true)">Đăng ký</span></p>
             </div>
-
             <div id="regForm" style="display:none">
                 <input type="text" id="nameR" class="form-control" placeholder="Tên đầy đủ">
-                <input type="email" id="emailR" class="form-control" placeholder="Email hợp lệ">
-                <input type="password" id="passR" class="form-control" placeholder="Mật khẩu mới">
-                <button class="btn-main mb-4" onclick="handleRegister()">Xác nhận đăng ký</button>
-                <p class="small text-gray">Đã thành viên? <span class="text-white fw-bold" style="cursor:pointer" onclick="toggleAuth(false)">Quay lại Đăng nhập</span></p>
+                <input type="email" id="emailR" class="form-control" placeholder="Email">
+                <input type="password" id="passR" class="form-control" placeholder="Mật khẩu">
+                <button class="btn-main mb-3" onclick="handleRegister()">Xác nhận tạo nick</button>
+                <p class="small text-gray">Đã có nick? <span class="text-white fw-bold" style="cursor:pointer" onclick="toggleAuth(false)">Quay lại</span></p>
             </div>
         </div>
     </div>
 
     <div id="dashScreen" class="dashboard-layout">
         <div id="sideBar" class="sidebar">
-            <div class="sidebar-brand">MMO PRO</div>
-            <div class="nav-item active" onclick="switchTab('tabHome', this)"><i class="fas fa-th-large"></i> Tổng quan</div>
-            <div class="nav-item" onclick="switchTab('tabTask', this)"><i class="fas fa-play-circle"></i> Nhiệm vụ</div>
-            <div class="nav-item" onclick="switchTab('tabHistory', this)"><i class="fas fa-list-ul"></i> Lịch sử</div>
+            <div class="text-center mb-5"><h4 class="fw-bold text-orange" style="color:var(--neon-orange)">MMO ELITE</h4></div>
+            <div class="nav-item active" onclick="switchTab('tabHome', this)"><i class="fas fa-home"></i> Tổng quan</div>
+            <div class="nav-item" onclick="switchTab('tabTask', this)"><i class="fas fa-tasks"></i> Nhiệm vụ</div>
+            <div class="nav-item" onclick="switchTab('tabHistory', this)"><i class="fas fa-history"></i> Lịch sử</div>
             <div class="nav-item" onclick="switchTab('tabPay', this)"><i class="fas fa-wallet"></i> Rút tiền</div>
-            <div class="nav-item" onclick="switchTab('tabRef', this)"><i class="fas fa-users"></i> Giới thiệu</div>
+            <div class="nav-item" onclick="switchTab('tabRef', this)"><i class="fas fa-share-alt"></i> Giới thiệu</div>
         </div>
 
         <div id="mainContent" class="content-area">
-            <div class="d-flex justify-content-between align-items-center mb-5">
-                <button class="btn btn-outline-secondary px-3" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <button class="btn btn-dark" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
                 <div class="position-relative">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=MMO" class="user-avatar" onclick="toggleUserMenu(event)">
+                    <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=MMO" class="user-avatar" onclick="toggleUserMenu(event)">
                     <div id="userDrop" class="user-dropdown">
-                        <div class="p-3 border-bottom"><small class="text-gray">Tài khoản:</small><br><b id="displayEmail">user@mmo.com</b></div>
+                        <div class="p-3 border-bottom small"><b id="displayEmail">user@mmo.com</b></div>
                         <a href="javascript:void(0)" class="drop-link" onclick="showProfile()">Cài đặt hồ sơ</a>
                         <a href="javascript:void(0)" class="drop-link text-danger" onclick="location.reload()">Đăng xuất</a>
                     </div>
@@ -132,65 +150,57 @@
             </div>
 
             <div id="tabHome" class="tab-pane active">
-                <div class="big-balance-card">
-                    <small class="text-gray">VÍ TIỀN HỆ THỐNG</small>
-                    <h2 id="balanceShow" class="display-4 fw-bold my-3">0 đ</h2>
-                    <span class="badge bg-success bg-opacity-10 text-success border border-success">Hệ thống ổn định</span>
+                <div class="card-custom text-center">
+                    <p class="text-gray small">SỐ DƯ KHẢ DỤNG</p>
+                    <h1 id="balanceShow" class="display-5 fw-bold">0 đ</h1>
                 </div>
-                <div class="chart-container">
-                    <canvas id="myChart" height="150"></canvas>
+                <div class="card-custom">
+                    <canvas id="myChart" height="120"></canvas>
                 </div>
             </div>
 
             <div id="tabTask" class="tab-pane">
-                <h5>Nhiệm vụ khả dụng</h5>
-                <div class="mt-4 p-4 rounded-4" style="background:var(--bg-card); border-left:6px solid var(--neon-pink);">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div><b>Click link quảng cáo loại 1</b><br><small class="text-gray">+500đ mỗi lượt hoàn tất</small></div>
-                        <button class="btn btn-light btn-sm px-4" onclick="doTask()">BẮT ĐẦU</button>
-                    </div>
+                <div class="card-custom d-flex justify-content-between align-items-center">
+                    <div><b>Vượt link quảng cáo</b><br><small class="text-gray">+500đ / lượt</small></div>
+                    <button class="btn btn-light btn-sm px-4" onclick="doTask()">LÀM</button>
                 </div>
             </div>
 
             <div id="tabHistory" class="tab-pane">
                 <h5>Lịch sử hoạt động</h5>
-                <div class="history-tabs mt-3">
-                    <div class="h-tab active" id="hTaskBtn" onclick="toggleHistoryTab('task')">Vượt link</div>
-                    <div class="h-tab" id="hPayBtn" onclick="toggleHistoryTab('pay')">Rút tiền</div>
+                <div class="h-nav">
+                    <div class="h-tab active" id="btnHTask" onclick="changeH('task')">Làm nhiệm vụ</div>
+                    <div class="h-tab" id="btnHPay" onclick="changeH('pay')">Yêu cầu rút tiền</div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-dark table-hover">
+                    <table class="table table-dark table-hover small">
                         <thead><tr><th>Nội dung</th><th>Thời gian</th><th>Số tiền</th></tr></thead>
-                        <tbody id="historyContent"></tbody>
+                        <tbody id="hBody"></tbody>
                     </table>
                 </div>
             </div>
 
-            <div id="tabPay" class="tab-pane text-center">
-                <h5>Rút tiền về ZaloPay / Bank</h5>
-                <div class="mx-auto mt-4" style="max-width: 450px; background: var(--bg-card); padding: 30px; border-radius: 25px;">
-                    <input type="number" id="wdValue" class="form-control text-center mb-3" placeholder="Số tiền (Tối thiểu 10.000đ)">
+            <div id="tabPay" class="tab-pane">
+                <div class="card-custom mx-auto" style="max-width: 400px;">
+                    <h5 class="text-center mb-4">Rút tiền hệ thống</h5>
+                    <input type="number" id="wdAmount" class="form-control text-center" placeholder="Số tiền rút (Min 10k)">
                     
-                    <p class="text-start small text-gray mb-1">Tải ảnh mã QR nhận tiền của bạn:</p>
-                    <div class="qr-upload" onclick="document.getElementById('qrInput').click()">
-                        <i class="fas fa-cloud-upload-alt fa-2x mb-2"></i><br>
-                        <span class="small">Chọn ảnh QR từ máy</span>
-                        <input type="file" id="qrInput" hidden accept="image/*" onchange="previewQR(this)">
+                    <p class="small text-gray mt-3">Tải ảnh QR nhận tiền:</p>
+                    <div class="qr-box" onclick="document.getElementById('qrInp').click()">
+                        <i class="fas fa-qrcode fa-2x text-gray"></i><br>
+                        <span class="small text-gray">Bấm để chọn ảnh QR</span>
+                        <input type="file" id="qrInp" hidden accept="image/*" onchange="previewQR(this)">
                         <img id="qrPreview">
                     </div>
-
-                    <button class="btn-main mt-3" onclick="handleWithdraw()">XÁC NHẬN RÚT TIỀN</button>
+                    <button class="btn-main mt-4" onclick="handleWithdraw()">XÁC NHẬN RÚT</button>
                 </div>
             </div>
 
             <div id="tabRef" class="tab-pane text-center">
-                <h5>Chương trình giới thiệu</h5>
-                <div class="mt-4 p-5 rounded-5" style="background:var(--bg-card);">
-                    <p class="text-gray">Sao chép link gửi cho bạn bè để nhận thưởng:</p>
-                    <div class="d-flex bg-black rounded overflow-hidden">
-                        <input type="text" id="refLink" class="form-control border-0 bg-transparent text-warning" value="https://mmo-system.pro/ref/user123" readonly>
-                        <button class="btn btn-warning px-4" onclick="copyRef()">COPY</button>
-                    </div>
+                <div class="card-custom">
+                    <p class="text-gray">Link giới thiệu của bạn:</p>
+                    <input type="text" value="https://mmo-pro.io/ref/889" class="form-control text-center text-warning" readonly>
+                    <button class="btn btn-sm btn-outline-warning">Sao chép link</button>
                 </div>
             </div>
         </div>
@@ -198,35 +208,21 @@
 
     <div id="profileModal" class="modal-overlay">
         <div class="modal-card">
-            <h3 class="text-warning mb-4">THÔNG TIN CÁ NHÂN</h3>
-            <div class="text-start text-gray small mb-4">
-                <p>● Họ tên: <b id="pName" class="text-white">---</b></p>
-                <p>● Email: <b id="pEmail" class="text-white">---</b></p>
-                <p>● Tài khoản: <b class="text-success">Thành viên Premium</b></p>
-                <p>● Ngày tham gia: <b class="text-white">01/04/2026</b></p>
+            <h4 class="text-warning mb-4">HỒ SƠ CỦA BẠN</h4>
+            <div class="text-start small text-gray">
+                <p>Tên: <b id="pName" class="text-white">--</b></p>
+                <p>Email: <b id="pEmail" class="text-white">--</b></p>
+                <p>Loại ví: <b class="text-success">ZaloPay / Bank</b></p>
             </div>
-            <button class="btn-main" onclick="document.getElementById('profileModal').style.display='none'">ĐÓNG</button>
-        </div>
-    </div>
-
-    <div id="systemPopup" class="modal-overlay">
-        <div class="modal-card">
-            <h3 class="text-warning mb-4">THÀNH VIÊN MỚI</h3>
-            <div class="text-start text-gray small mb-4">
-                <p>● Chào mừng bạn đến với nền tảng MMO PRO.</p>
-                <p>● Rút tiền tối thiểu: <b>10.000đ</b>.</p>
-                <p>● Thời gian duyệt lệnh: <b>23:00 hằng ngày</b>.</p>
-            </div>
-            <button class="btn-main" onclick="closePopup()">BẮT ĐẦU KIẾM TIỀN</button>
+            <button class="btn-main mt-3" onclick="document.getElementById('profileModal').style.display='none'">ĐÓNG</button>
         </div>
     </div>
 
     <script>
-        let userData = { name: "Chưa cập nhật", email: "user@mmo.com", pass: "" };
+        let userData = { name: "", email: "demo@gmail.com", pass: "123" };
         let balance = 0;
-        let historyData = { task: [], pay: [] };
+        let hData = { task: [], pay: [] };
 
-        // AUTH LOGIC (GIỮ NGUYÊN)
         function toggleAuth(reg) {
             document.getElementById('loginForm').style.display = reg ? 'none' : 'block';
             document.getElementById('regForm').style.display = reg ? 'block' : 'none';
@@ -236,56 +232,49 @@
             userData.name = document.getElementById('nameR').value;
             userData.email = document.getElementById('emailR').value;
             userData.pass = document.getElementById('passR').value;
-            alert("Đăng ký hoàn tất! Hãy đăng nhập.");
+            if(!userData.email || !userData.pass) return alert("Điền đủ thông tin!");
+            alert("Đăng ký xong! Hãy đăng nhập.");
             toggleAuth(false);
         }
 
         function handleLogin() {
             const e = document.getElementById('emailL').value;
             const p = document.getElementById('passL').value;
-            if(e !== userData.email || p !== userData.pass) return alert("Sai tài khoản!");
-            
-            document.getElementById('displayEmail').innerText = e;
-            document.getElementById('authScreen').style.display = 'none';
-            document.getElementById('dashScreen').style.display = 'flex';
-            initChart();
-            checkPopup();
+            if(e === userData.email && p === userData.pass) {
+                document.getElementById('displayEmail').innerText = e;
+                document.getElementById('authScreen').style.display = 'none';
+                document.getElementById('dashScreen').style.display = 'block';
+                initChart();
+            } else { alert("Sai tài khoản hoặc mật khẩu!"); }
         }
 
-        // YÊU CẦU 1: HIỆN HỒ SƠ
+        // YÊU CẦU 1: HỒ SƠ
         function showProfile() {
-            document.getElementById('pName').innerText = userData.name;
+            document.getElementById('pName').innerText = userData.name || "Chưa đặt tên";
             document.getElementById('pEmail').innerText = userData.email;
             document.getElementById('profileModal').style.display = 'flex';
         }
 
-        // YÊU CẦU 2: LỊCH SỬ PHÂN LOẠI
-        function toggleHistoryTab(type) {
-            document.getElementById('hTaskBtn').classList.toggle('active', type === 'task');
-            document.getElementById('hPayBtn').classList.toggle('active', type === 'pay');
-            renderHistory(type);
+        // YÊU CẦU 2: LỊCH SỬ TÁCH BIỆT
+        function changeH(type) {
+            document.getElementById('btnHTask').classList.toggle('active', type==='task');
+            document.getElementById('btnHPay').classList.toggle('active', type==='pay');
+            renderH(type);
         }
-
-        function renderHistory(type) {
-            const container = document.getElementById('historyContent');
-            container.innerHTML = historyData[type].map(item => `
-                <tr>
-                    <td>${item.title}</td>
-                    <td>${item.time}</td>
-                    <td class="${item.amount > 0 ? 'text-success' : 'text-danger'}">${item.amount > 0 ? '+' : ''}${item.amount.toLocaleString()}đ</td>
-                </tr>
-            `).join('');
+        function renderH(type) {
+            const body = document.getElementById('hBody');
+            body.innerHTML = hData[type].map(i => `<tr><td>${i.txt}</td><td>${i.time}</td><td class="${i.amt>0?'text-success':'text-danger'}">${i.amt>0?'+':''}${i.amt.toLocaleString()}đ</td></tr>`).join('');
         }
 
         function doTask() {
-            alert("Nhiệm vụ hoàn thành! +500đ");
             balance += 500;
-            updateBalance();
-            historyData.task.push({ title: "Vượt link level 1", time: new Date().toLocaleTimeString(), amount: 500 });
-            if(document.getElementById('hTaskBtn').classList.contains('active')) renderHistory('task');
+            document.getElementById('balanceShow').innerText = balance.toLocaleString() + " đ";
+            hData.task.push({ txt: "Làm nhiệm vụ vượt link", time: new Date().toLocaleTimeString(), amt: 500 });
+            alert("Thành công +500đ");
+            if(document.getElementById('btnHTask').classList.contains('active')) renderH('task');
         }
 
-        // YÊU CẦU 3: RÚT TIỀN + QR
+        // YÊU CẦU 3: QR RÚT TIỀN
         function previewQR(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -297,22 +286,20 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
         function handleWithdraw() {
-            const v = parseInt(document.getElementById('wdValue').value);
-            const qr = document.getElementById('qrInput').files[0];
-            if(!v || v < 10000) return alert("Tối thiểu 10k");
-            if(v > balance) return alert("Số dư không đủ");
+            const amt = parseInt(document.getElementById('wdAmount').value);
+            const qr = document.getElementById('qrInp').files[0];
+            if(!amt || amt < 10000) return alert("Rút tối thiểu 10k");
+            if(amt > balance) return alert("Số dư không đủ");
             if(!qr) return alert("Vui lòng tải ảnh QR nhận tiền");
 
-            balance -= v;
-            updateBalance();
-            historyData.pay.push({ title: "Yêu cầu rút tiền", time: new Date().toLocaleDateString(), amount: -v });
-            alert("Đã gửi yêu cầu! Duyệt lúc 23h hàng ngày.");
+            balance -= amt;
+            document.getElementById('balanceShow').innerText = balance.toLocaleString() + " đ";
+            hData.pay.push({ txt: "Rút tiền hệ thống", time: new Date().toLocaleDateString(), amt: -amt });
+            alert("Đã gửi yêu cầu rút tiền!");
         }
 
-        // UTILS (GIỮ NGUYÊN)
-        function updateBalance() { document.getElementById('balanceShow').innerText = balance.toLocaleString() + " đ"; }
+        // SIDEBAR & MENU
         function toggleSidebar() { 
             document.getElementById('sideBar').classList.toggle('hidden'); 
             document.getElementById('mainContent').classList.toggle('full');
@@ -326,27 +313,13 @@
         function toggleUserMenu(e) { e.stopPropagation(); document.getElementById('userDrop').classList.toggle('active'); }
         window.onclick = () => document.getElementById('userDrop').classList.remove('active');
 
-        function checkPopup() {
-            const last = localStorage.getItem('mmo_popup');
-            if(!last || (Date.now() - last > 86400000)) document.getElementById('systemPopup').style.display = 'flex';
-        }
-        function closePopup() {
-            document.getElementById('systemPopup').style.display = 'none';
-            localStorage.setItem('mmo_popup', Date.now());
-        }
-
         function initChart() {
             const ctx = document.getElementById('myChart').getContext('2d');
             new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['T2','T3','T4','T5','T6','T7','CN'],
-                    datasets: [{
-                        data: [0, 5000, 15000, 12000, 25000, 20000, 45000],
-                        borderColor: '#ff007f',
-                        backgroundColor: 'rgba(255, 0, 127, 0.1)',
-                        fill: true, tension: 0.4
-                    }]
+                    datasets: [{ data: [10, 25, 15, 40, 30, 60, 55], borderColor: '#ff007f', tension: 0.4, fill: true, backgroundColor: 'rgba(255, 0, 127, 0.05)' }]
                 },
                 options: { plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } } }
             });
@@ -354,6 +327,7 @@
     </script>
 </body>
 </html>
+
 
 
 
