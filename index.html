@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MMO ELITE PRO - V2.0 FIXED</title>
+    <title>MMO ELITE - V2.0 FINAL FIX</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -14,11 +14,10 @@
         :root {
             --bg-black: #050505; --bg-card: #0f0f12;
             --neon-pink: #ff007f; --neon-orange: #ff8c00;
-            --neon-blue: #00d4ff; --text-white: #ffffff;
-            --text-gray: #888888;
+            --text-white: #ffffff; --text-gray: #888888;
         }
 
-        body { background-color: var(--bg-black); color: var(--text-white); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        body { background-color: var(--bg-black); color: var(--text-white); font-family: 'Inter', sans-serif; margin: 0; }
 
         /* AUTH SCREEN */
         .auth-container {
@@ -26,217 +25,238 @@
             min-height: 100vh; background: radial-gradient(circle at 50% 50%, #1a0a0f 0%, #050505 100%);
         }
         .auth-card {
-            background: var(--bg-card); padding: 40px; border-radius: 25px;
-            border: 1px solid #1a1a1f; width: 95%; max-width: 400px; text-align: center;
+            background: var(--bg-card); padding: 30px; border-radius: 25px;
+            border: 1px solid #222; width: 90%; max-width: 380px; text-align: center;
         }
         .auth-header { 
             font-weight: 900; background: linear-gradient(45deg, var(--neon-pink), var(--neon-orange)); 
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            font-size: 2.2rem; letter-spacing: 2px; margin-bottom: 30px;
+            font-size: 2rem; margin-bottom: 25px;
         }
 
-        /* DASHBOARD */
-        .sidebar { 
-            width: 260px; background: var(--bg-card); border-right: 1px solid #1a1a1f; 
-            padding: 25px; position: fixed; height: 100vh; transition: 0.3s; z-index: 1000;
-        }
-        .content-area { margin-left: 260px; padding: 30px; min-height: 100vh; }
+        /* SIDEBAR & CONTENT */
+        .sidebar { width: 250px; background: var(--bg-card); border-right: 1px solid #222; position: fixed; height: 100vh; padding: 20px; z-index: 100; }
+        .content-area { margin-left: 250px; padding: 25px; min-height: 100vh; }
         
-        .nav-item { 
-            color: var(--text-gray); padding: 14px 18px; margin-bottom: 10px; 
-            border-radius: 12px; display: flex; align-items: center; cursor: pointer; text-decoration: none; 
+        .nav-link-custom { 
+            color: var(--text-gray); padding: 12px; margin-bottom: 5px; border-radius: 10px; 
+            display: block; text-decoration: none; cursor: pointer;
         }
-        .nav-item.active { 
-            color: white; background: linear-gradient(90deg, rgba(255,0,127,0.2), transparent);
-            border-left: 4px solid var(--neon-pink);
-        }
-        .nav-item i { margin-right: 15px; width: 20px; text-align: center; }
+        .nav-link-custom.active { color: white; background: rgba(255, 0, 127, 0.1); border-left: 3px solid var(--neon-pink); }
 
-        /* MOBILE NAVIGATION */
+        /* MOBILE NAV */
+        .mobile-nav { display: none; position: fixed; bottom: 0; width: 100%; background: #0f0f12; border-top: 1px solid #222; height: 65px; z-index: 1000; }
+        
         @media (max-width: 768px) {
             .sidebar { display: none; }
-            .content-area { margin-left: 0 !important; padding-bottom: 100px; }
-            .mobile-nav {
-                position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
-                background: #0f0f12; display: flex; justify-content: space-around;
-                align-items: center; border-top: 1px solid #222; z-index: 9999;
-            }
-            .m-nav-item { color: var(--text-gray); text-align: center; font-size: 0.7rem; text-decoration: none; flex: 1; }
-            .m-nav-item.active { color: var(--neon-pink); }
-            .m-nav-item i { font-size: 1.4rem; display: block; }
+            .content-area { margin-left: 0; padding-bottom: 80px; }
+            .mobile-nav { display: flex; justify-content: space-around; align-items: center; }
+            .m-item { color: var(--text-gray); text-decoration: none; font-size: 11px; text-align: center; }
+            .m-item.active { color: var(--neon-pink); }
+            .m-item i { font-size: 18px; display: block; }
         }
-        @media (min-width: 769px) { .mobile-nav { display: none; } }
 
-        .card-custom {
-            background: var(--bg-card); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 20px; margin-bottom: 20px;
-        }
-        .btn-main { 
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-orange)); 
-            color: white !important; font-weight: 800; border: none; padding: 12px; 
-            border-radius: 12px; width: 100%; transition: 0.3s;
-        }
-        .lvl-progress { height: 8px; background: #222; border-radius: 10px; overflow: hidden; margin: 10px 0; }
-        .lvl-bar { height: 100%; background: var(--neon-pink); width: 0%; transition: 0.5s; }
-        .user-dropdown { 
-            position: absolute; top: 60px; right: 0; background: var(--bg-card); 
-            border: 1px solid #333; border-radius: 15px; width: 200px; display: none; z-index: 10001; 
-        }
-        .user-dropdown.active { display: block; }
-        .tab-pane { display: none; }
-        .tab-pane.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .card-custom { background: var(--bg-card); border-radius: 15px; border: 1px solid #222; padding: 20px; margin-bottom: 20px; }
+        .btn-main { background: linear-gradient(45deg, var(--neon-pink), var(--neon-orange)); color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; font-weight: bold; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .lvl-bar-bg { height: 8px; background: #222; border-radius: 5px; margin: 10px 0; overflow: hidden; }
+        .lvl-bar-fill { height: 100%; background: var(--neon-pink); width: 0%; transition: 0.5s; }
     </style>
 </head>
 <body>
 
-    <div id="authScreen" class="auth-container">
+    <div id="authBox" class="auth-container">
         <div class="auth-card">
             <h1 class="auth-header">MMO ELITE</h1>
             
             <div id="loginForm">
-                <input type="email" id="emailL" class="form-control mb-3 py-2 bg-dark border-0 text-white shadow-none" placeholder="Email">
-                <input type="password" id="passL" class="form-control mb-3 py-2 bg-dark border-0 text-white shadow-none" placeholder="Mật khẩu">
-                <button class="btn-main mb-3" onclick="handleLogin()">ĐĂNG NHẬP</button>
-                <p class="small text-secondary">Chưa có tài khoản? <span class="text-info" style="cursor:pointer" onclick="toggleAuth(true)">Đăng ký</span></p>
+                <input type="email" id="lEmail" class="form-control bg-dark border-0 text-white mb-3" placeholder="Email">
+                <input type="password" id="lPass" class="form-control bg-dark border-0 text-white mb-3" placeholder="Mật khẩu">
+                <button class="btn-main" onclick="doLogin()">ĐĂNG NHẬP</button>
+                <p class="small mt-3 text-secondary">Chưa có nick? <span class="text-info" style="cursor:pointer" onclick="goReg(true)">Đăng ký</span></p>
             </div>
 
             <div id="regForm" style="display:none">
-                <input type="text" id="nameR" class="form-control mb-3 py-2 bg-dark border-0 text-white shadow-none" placeholder="Họ và tên">
-                <input type="email" id="emailR" class="form-control mb-3 py-2 bg-dark border-0 text-white shadow-none" placeholder="Email">
-                <input type="password" id="passR" class="form-control mb-3 py-2 bg-dark border-0 text-white shadow-none" placeholder="Mật khẩu (6+ kí tự)">
-                <button class="btn-main mb-3" onclick="handleRegister()">XÁC NHẬN TẠO NICK</button>
-                <p class="small text-secondary">Đã có nick? <span class="text-info" style="cursor:pointer" onclick="toggleAuth(false)">Quay lại</span></p>
+                <input type="text" id="rName" class="form-control bg-dark border-0 text-white mb-3" placeholder="Họ tên">
+                <input type="email" id="rEmail" class="form-control bg-dark border-0 text-white mb-3" placeholder="Email">
+                <input type="password" id="rPass" class="form-control bg-dark border-0 text-white mb-3" placeholder="Mật khẩu (6+ kí tự)">
+                <button class="btn-main" onclick="doRegister()">TẠO TÀI KHOẢN</button>
+                <p class="small mt-3 text-secondary">Đã có nick? <span class="text-info" style="cursor:pointer" onclick="goReg(false)">Quay lại</span></p>
             </div>
         </div>
     </div>
 
-    <div id="dashScreen" style="display:none">
-        <div id="sideBar" class="sidebar">
-            <div class="text-center mb-5"><h3 class="fw-bold text-white">MMO <span style="color:var(--neon-pink)">PRO</span></h3></div>
-            <div class="nav-item active" data-tab="tabHome" onclick="navTab(this)"><i class="fas fa-home"></i> Sảnh chính</div>
-            <div class="nav-item" data-tab="tabTask" onclick="navTab(this)"><i class="fas fa-play"></i> Kiếm tiền</div>
-            <div class="nav-item" data-tab="tabPay" onclick="navTab(this)"><i class="fas fa-wallet"></i> Rút tiền</div>
-            <div class="nav-item text-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</div>
+    <div id="mainBox" style="display:none">
+        <div class="sidebar">
+            <h4 class="fw-bold mb-4">MMO <span style="color:var(--neon-pink)">PRO</span></h4>
+            <a class="nav-link-custom active" onclick="showTab('home', this)"><i class="fas fa-home me-2"></i> Sảnh chính</a>
+            <a class="nav-link-custom" onclick="showTab('task', this)"><i class="fas fa-play me-2"></i> Làm nhiệm vụ</a>
+            <a class="nav-link-custom" onclick="showTab('pay', this)"><i class="fas fa-wallet me-2"></i> Rút tiền</a>
+            <hr>
+            <a class="nav-link-custom text-danger" onclick="doLogout()"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a>
         </div>
 
         <div class="mobile-nav">
-            <a href="javascript:void(0)" class="m-nav-item active" data-tab="tabHome" onclick="navTab(this)"><i class="fas fa-home"></i><span>Sảnh</span></a>
-            <a href="javascript:void(0)" class="m-nav-item" data-tab="tabTask" onclick="navTab(this)"><i class="fas fa-bolt"></i><span>Kiếm</span></a>
-            <a href="javascript:void(0)" class="m-nav-item" data-tab="tabPay" onclick="navTab(this)"><i class="fas fa-wallet"></i><span>Rút</span></a>
-            <a href="javascript:void(0)" class="m-nav-item" onclick="logout()"><i class="fas fa-user-circle"></i><span>Thoát</span></a>
+            <a href="javascript:void(0)" class="m-item active" onclick="showTab('home', this)"><i class="fas fa-home"></i>Sảnh</a>
+            <a href="javascript:void(0)" class="m-item" onclick="showTab('task', this)"><i class="fas fa-bolt"></i>Nhiệm vụ</a>
+            <a href="javascript:void(0)" class="m-item" onclick="showTab('pay', this)"><i class="fas fa-wallet"></i>Rút tiền</a>
+            <a href="javascript:void(0)" class="m-item" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i>Thoát</a>
         </div>
 
-        <div id="mainContent" class="content-area">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div><h5 class="fw-bold mb-0" id="topNavName">Username</h5><small class="text-secondary">Thành viên Elite</small></div>
-                <div class="position-relative">
-                    <img id="userAvatarImg" src="" class="rounded-circle border border-info" style="width: 45px; height:45px;">
-                </div>
-            </div>
-
-            <div id="tabHome" class="tab-pane active">
-                <div class="card-custom text-center py-4">
-                    <p class="text-secondary small mb-1">SỐ DƯ KHẢ DỤNG</p>
-                    <h2 id="balanceShow" class="fw-bold mb-0">0 đ</h2>
+        <div class="content-area">
+            <div id="home" class="tab-content active">
+                <div class="card-custom text-center">
+                    <p class="text-secondary small">SỐ DƯ CỦA BẠN</p>
+                    <h2 id="uiBalance" class="fw-bold">0 đ</h2>
                 </div>
                 <div class="card-custom">
-                    <div class="d-flex justify-content-between small mb-2">
-                        <span>CẤP ĐỘ: <b id="lvlText">1</b></span>
-                        <span id="expText">0/100 EXP</span>
+                    <div class="d-flex justify-content-between small">
+                        <span>CẤP ĐỘ: <b id="uiLvl">1</b></span>
+                        <span id="uiExp">0/100 EXP</span>
                     </div>
-                    <div class="lvl-progress"><div id="lvlBar" class="lvl-bar"></div></div>
+                    <div class="lvl-bar-bg"><div id="uiBar" class="lvl-bar-fill"></div></div>
                 </div>
-                <div class="card-custom text-center">
-                    <h6>Điểm danh hàng ngày</h6>
-                    <button class="btn-main mt-2 w-auto px-5" onclick="doCheckin()">NHẬN 1,000đ</button>
-                </div>
+                <button class="btn-main" onclick="checkin()">ĐIỂM DANH (+1,000đ)</button>
             </div>
 
-            <div id="tabTask" class="tab-pane">
+            <div id="task" class="tab-content">
                 <div class="card-custom d-flex justify-content-between align-items-center">
-                    <div><h6>Xem QC Monetag</h6><p class="small text-info mb-0">Thưởng: <span id="rewardValue">500</span>đ</p></div>
-                    <button class="btn-main w-auto px-4" onclick="doTask()">BẮT ĐẦU</button>
+                    <div>
+                        <h6 class="mb-0">Xem quảng cáo Monetag</h6>
+                        <small class="text-info">+500đ mỗi lượt</small>
+                    </div>
+                    <button class="btn btn-sm btn-light fw-bold px-3" onclick="startTask()">BẮT ĐẦU</button>
                 </div>
             </div>
 
-            <div id="tabPay" class="tab-pane">
-                <div class="card-custom mx-auto" style="max-width: 400px;">
-                    <h5 class="text-center mb-4">Rút tiền</h5>
-                    <input type="number" id="wdAmount" class="form-control bg-dark text-white border-0 mb-3" placeholder="Số tiền rút (Min 10k)">
-                    <button class="btn-main" onclick="handleWithdraw()">XÁC NHẬN</button>
+            <div id="pay" class="tab-content">
+                <div class="card-custom text-center">
+                    <h5>Rút tiền về ví</h5>
+                    <input type="number" id="pAmt" class="form-control bg-dark border-0 text-white my-3" placeholder="Nhập số tiền (Min 10k)">
+                    <button class="btn-main" onclick="withdraw()">XÁC NHẬN RÚT</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- DỮ LIỆU ---
-        let db = JSON.parse(localStorage.getItem('mmo_fixed_db')) || {
-            user: { name: "Thành viên", email: "admin@gmail.com", pass: "123456", level: 1, exp: 0, lastCheckin: "" },
+        // --- DATA ---
+        let data = JSON.parse(localStorage.getItem('mmo_final_db')) || {
+            user: { name: "", email: "admin@gmail.com", pass: "123456", lvl: 1, exp: 0, last: "" },
             balance: 0
         };
 
         window.onload = () => {
-            if(localStorage.getItem('mmo_is_logged') === 'true') showDashboard();
+            if(localStorage.getItem('isLogin') === 'true') {
+                document.getElementById('authBox').style.display = 'none';
+                document.getElementById('mainBox').style.display = 'block';
+                refresh();
+            }
         };
 
-        function save() { localStorage.setItem('mmo_fixed_db', JSON.stringify(db)); }
+        function sync() { localStorage.setItem('mmo_final_db', JSON.stringify(data)); }
 
-        // --- AUTH LOGIC ---
-        function toggleAuth(isReg) {
+        // --- AUTH ---
+        function goReg(isReg) {
             document.getElementById('loginForm').style.display = isReg ? 'none' : 'block';
             document.getElementById('regForm').style.display = isReg ? 'block' : 'none';
         }
 
-        function handleRegister() {
-            const n = document.getElementById('nameR').value;
-            const e = document.getElementById('emailR').value;
-            const p = document.getElementById('passR').value;
+        function doRegister() {
+            const n = document.getElementById('rName').value;
+            const e = document.getElementById('rEmail').value;
+            const p = document.getElementById('rPass').value;
+            if(!n || !e || p.length < 6) return Swal.fire("Lỗi", "Vui lòng nhập đủ thông tin!", "error");
             
-            if(!n || !e || p.length < 6) {
-                return Swal.fire("Lỗi", "Vui lòng nhập đầy đủ và mật khẩu ít nhất 6 ký tự!", "error");
-            }
-            
-            db.user = { name: n, email: e, pass: p, level: 1, exp: 0, lastCheckin: "" };
-            save();
-            Swal.fire("Thành công", "Đã tạo tài khoản, hãy đăng nhập!", "success");
-            toggleAuth(false);
+            data.user = { name: n, email: e, pass: p, lvl: 1, exp: 0, last: "" };
+            sync();
+            Swal.fire("Xong!", "Đã tạo nick, hãy đăng nhập", "success");
+            goReg(false);
         }
 
-        function handleLogin() {
-            const e = document.getElementById('emailL').value;
-            const p = document.getElementById('passL').value;
-            
-            if(e === db.user.email && p === db.user.pass) {
-                localStorage.setItem('mmo_is_logged', 'true');
-                showDashboard();
+        function doLogin() {
+            const e = document.getElementById('lEmail').value;
+            const p = document.getElementById('lPass').value;
+            if(e === data.user.email && p === data.user.pass) {
+                localStorage.setItem('isLogin', 'true');
+                location.reload();
             } else {
-                Swal.fire("Lỗi", "Tài khoản hoặc mật khẩu không đúng!", "error");
+                Swal.fire("Lỗi", "Sai email hoặc mật khẩu!", "error");
             }
         }
 
-        function showDashboard() {
-            document.getElementById('authScreen').style.display = 'none';
-            document.getElementById('dashScreen').style.display = 'block';
-            updateUI();
-        }
-
-        function logout() {
-            localStorage.setItem('mmo_is_logged', 'false');
+        function doLogout() {
+            localStorage.setItem('isLogin', 'false');
             location.reload();
         }
 
-        // --- HÀNH ĐỘNG ---
-        function updateUI() {
-            document.getElementById('topNavName').innerText = db.user.name;
-            document.getElementById('balanceShow').innerText = db.balance.toLocaleString() + " đ";
-            document.getElementById('lvlText').innerText = db.user.level;
-            document.getElementById('expText').innerText = db.user.exp + "/100 EXP";
-            document.getElementById('lvlBar').style.width = db.user.exp + "%";
-            document.getElementById('userAvatarImg').src = `https://api.dicebear.com/7.x/initials/svg?seed=${db.user.name}`;
+        // --- DASHBOARD ---
+        function refresh() {
+            document.getElementById('uiBalance').innerText = data.balance.toLocaleString() + " đ";
+            document.getElementById('uiLvl').innerText = data.user.lvl;
+            document.getElementById('uiExp').innerText = data.user.exp + "/100 EXP";
+            document.getElementById('uiBar').style.width = data.user.exp + "%";
+            sync();
+        }
+
+        function showTab(id, el) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
             
-            const bonus = (db.user.level - 1) * 2
+            // Sync Menu Active
+            document.querySelectorAll('.nav-link-custom, .m-item').forEach(n => n.classList.remove('active'));
+            if(el) el.classList.add('active');
+        }
+
+        function checkin() {
+            let today = new Date().toDateString();
+            if(data.user.last === today) return Swal.fire("Hết lượt", "Mai quay lại nhé!", "warning");
+            
+            data.user.last = today;
+            data.balance += 1000;
+            refresh();
+            Swal.fire("Thành công", "+1,000đ", "success");
+        }
+
+        function startTask() {
+            window.open("https://omg10.com/4/10820048", "_blank");
+            let sec = 15;
+            Swal.fire({
+                title: 'VUI LÒNG CHỜ',
+                html: `Hệ thống kiểm tra: <b>${sec}s</b>`,
+                showConfirmButton: false, allowOutsideClick: false,
+                didOpen: () => {
+                    const b = Swal.getHtmlContainer().querySelector('b');
+                    const timer = setInterval(() => {
+                        sec--; b.textContent = sec + "s";
+                        if(sec <= 0) {
+                            clearInterval(timer);
+                            data.balance += 500;
+                            data.user.exp += 20;
+                            if(data.user.exp >= 100) { data.user.exp = 0; data.user.lvl++; }
+                            refresh();
+                            Swal.close();
+                            confetti({ particleCount: 100, spread: 70 });
+                        }
+                    }, 1000);
+                }
+            });
+        }
+
+        function withdraw() {
+            const val = parseInt(document.getElementById('pAmt').value);
+            if(!val || val < 10000) return Swal.fire("Lỗi", "Rút ít nhất 10k", "error");
+            if(val > data.balance) return Swal.fire("Lỗi", "Số dư không đủ", "error");
+            
+            data.balance -= val;
+            refresh();
+            Swal.fire("Đã gửi!", "Yêu cầu rút tiền đang chờ duyệt", "success");
+        }
+    </script>
+</body>
+</html>
+
 
 
 
