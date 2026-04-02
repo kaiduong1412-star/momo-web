@@ -3,44 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MMO ELITE PRO - V2.0</title>
+    <title>MMO ELITE PRO - V2.0 FIXED</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
         :root {
-            --bg-black: #050505;
-            --bg-card: #0f0f12;
-            --neon-pink: #ff007f;
-            --neon-orange: #ff8c00;
-            --neon-blue: #00d4ff;
-            --text-white: #ffffff;
+            --bg-black: #050505; --bg-card: #0f0f12;
+            --neon-pink: #ff007f; --neon-orange: #ff8c00;
+            --neon-blue: #00d4ff; --text-white: #ffffff;
             --text-gray: #888888;
         }
 
-        body {
-            background-color: var(--bg-black);
-            color: var(--text-white);
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            margin: 0;
-        }
-
-        /* GLASSMORPHISM & NEON */
-        .card-custom {
-            background: var(--bg-card);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: 0.3s;
-        }
-        .card-custom:hover { border-color: var(--neon-pink); }
+        body { background-color: var(--bg-black); color: var(--text-white); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
 
         /* AUTH SCREEN */
         .auth-container {
@@ -54,63 +32,60 @@
         .auth-header { 
             font-weight: 900; background: linear-gradient(45deg, var(--neon-pink), var(--neon-orange)); 
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-            font-size: 2.2rem; letter-spacing: 2px;
+            font-size: 2.2rem; letter-spacing: 2px; margin-bottom: 30px;
         }
 
-        /* NAVIGATION */
+        /* DASHBOARD */
         .sidebar { 
             width: 260px; background: var(--bg-card); border-right: 1px solid #1a1a1f; 
             padding: 25px; position: fixed; height: 100vh; transition: 0.3s; z-index: 1000;
         }
-        .content-area { margin-left: 260px; padding: 30px; transition: 0.3s; min-height: 100vh; }
+        .content-area { margin-left: 260px; padding: 30px; min-height: 100vh; }
         
         .nav-item { 
             color: var(--text-gray); padding: 14px 18px; margin-bottom: 10px; 
             border-radius: 12px; display: flex; align-items: center; cursor: pointer; text-decoration: none; 
-            transition: 0.2s;
         }
-        .nav-item:hover, .nav-item.active { 
+        .nav-item.active { 
             color: white; background: linear-gradient(90deg, rgba(255,0,127,0.2), transparent);
             border-left: 4px solid var(--neon-pink);
         }
         .nav-item i { margin-right: 15px; width: 20px; text-align: center; }
 
-        /* BOTTOM NAV FOR MOBILE */
+        /* MOBILE NAVIGATION */
         @media (max-width: 768px) {
             .sidebar { display: none; }
-            .content-area { margin-left: 0 !important; padding: 15px; padding-bottom: 100px; }
+            .content-area { margin-left: 0 !important; padding-bottom: 100px; }
             .mobile-nav {
                 position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
                 background: #0f0f12; display: flex; justify-content: space-around;
                 align-items: center; border-top: 1px solid #222; z-index: 9999;
             }
-            .m-nav-item { color: var(--text-gray); text-align: center; font-size: 0.7rem; text-decoration: none; }
+            .m-nav-item { color: var(--text-gray); text-align: center; font-size: 0.7rem; text-decoration: none; flex: 1; }
             .m-nav-item.active { color: var(--neon-pink); }
-            .m-nav-item i { font-size: 1.4rem; display: block; margin-bottom: 2px; }
+            .m-nav-item i { font-size: 1.4rem; display: block; }
         }
         @media (min-width: 769px) { .mobile-nav { display: none; } }
 
-        /* PROGRESS BAR LEVEL */
-        .lvl-progress { height: 8px; background: #222; border-radius: 10px; overflow: hidden; margin: 10px 0; }
-        .lvl-bar { height: 100%; background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink)); width: 0%; transition: 1s; }
-
+        .card-custom {
+            background: var(--bg-card); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px; margin-bottom: 20px;
+        }
         .btn-main { 
             background: linear-gradient(45deg, var(--neon-pink), var(--neon-orange)); 
             color: white !important; font-weight: 800; border: none; padding: 12px; 
             border-radius: 12px; width: 100%; transition: 0.3s;
         }
-        .btn-main:disabled { filter: grayscale(1); cursor: not-allowed; }
-
-        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 11px; text-transform: uppercase; }
-        .status-pending { background: rgba(255, 140, 0, 0.1); color: #ff8c00; border: 1px solid #ff8c00; }
-        .status-success { background: rgba(0, 212, 255, 0.1); color: #00d4ff; border: 1px solid #00d4ff; }
-
-        /* USER DROP */
+        .lvl-progress { height: 8px; background: #222; border-radius: 10px; overflow: hidden; margin: 10px 0; }
+        .lvl-bar { height: 100%; background: var(--neon-pink); width: 0%; transition: 0.5s; }
         .user-dropdown { 
             position: absolute; top: 60px; right: 0; background: var(--bg-card); 
-            border: 1px solid #333; border-radius: 15px; width: 220px; display: none; z-index: 10001; 
+            border: 1px solid #333; border-radius: 15px; width: 200px; display: none; z-index: 10001; 
         }
         .user-dropdown.active { display: block; }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -118,17 +93,19 @@
     <div id="authScreen" class="auth-container">
         <div class="auth-card">
             <h1 class="auth-header">MMO ELITE</h1>
+            
             <div id="loginForm">
-                <input type="email" id="emailL" class="form-control mb-3 py-2 bg-dark border-0 text-white" placeholder="Email">
-                <input type="password" id="passL" class="form-control mb-3 py-2 bg-dark border-0 text-white" placeholder="Mật khẩu">
+                <input type="email" id="emailL" class="form-control mb-3 py-2 bg-dark border-0 text-white shadow-none" placeholder="Email">
+                <input type="password" id="passL" class="form-control mb-3 py-2 bg-dark border-0 text-white shadow-none" placeholder="Mật khẩu">
                 <button class="btn-main mb-3" onclick="handleLogin()">ĐĂNG NHẬP</button>
-                <p class="small text-secondary">Chưa có tài khoản? <span class="text-info" style="cursor:pointer" onclick="toggleAuth(true)">Đăng ký ngay</span></p>
+                <p class="small text-secondary">Chưa có tài khoản? <span class="text-info" style="cursor:pointer" onclick="toggleAuth(true)">Đăng ký</span></p>
             </div>
+
             <div id="regForm" style="display:none">
-                <input type="text" id="nameR" class="form-control mb-3 py-2 bg-dark border-0 text-white" placeholder="Họ và tên">
-                <input type="email" id="emailR" class="form-control mb-3 py-2 bg-dark border-0 text-white" placeholder="Email">
-                <input type="password" id="passR" class="form-control mb-3 py-2 bg-dark border-0 text-white" placeholder="Mật khẩu (6+ kí tự)">
-                <button class="btn-main mb-3" onclick="handleRegister()">TẠO TÀI KHOẢN</button>
+                <input type="text" id="nameR" class="form-control mb-3 py-2 bg-dark border-0 text-white shadow-none" placeholder="Họ và tên">
+                <input type="email" id="emailR" class="form-control mb-3 py-2 bg-dark border-0 text-white shadow-none" placeholder="Email">
+                <input type="password" id="passR" class="form-control mb-3 py-2 bg-dark border-0 text-white shadow-none" placeholder="Mật khẩu (6+ kí tự)">
+                <button class="btn-main mb-3" onclick="handleRegister()">XÁC NHẬN TẠO NICK</button>
                 <p class="small text-secondary">Đã có nick? <span class="text-info" style="cursor:pointer" onclick="toggleAuth(false)">Quay lại</span></p>
             </div>
         </div>
@@ -137,145 +114,76 @@
     <div id="dashScreen" style="display:none">
         <div id="sideBar" class="sidebar">
             <div class="text-center mb-5"><h3 class="fw-bold text-white">MMO <span style="color:var(--neon-pink)">PRO</span></h3></div>
-            <div class="nav-item active" onclick="switchTab('tabHome', this)"><i class="fas fa-th-large"></i> Tổng quan</div>
-            <div class="nav-item" onclick="switchTab('tabTask', this)"><i class="fas fa-play-circle"></i> Kiếm tiền</div>
-            <div class="nav-item" onclick="switchTab('tabHistory', this)"><i class="fas fa-history"></i> Lịch sử</div>
-            <div class="nav-item" onclick="switchTab('tabPay', this)"><i class="fas fa-wallet"></i> Rút tiền</div>
-            <div class="nav-item" onclick="switchTab('tabRef', this)"><i class="fas fa-users"></i> Bạn bè</div>
+            <div class="nav-item active" data-tab="tabHome" onclick="navTab(this)"><i class="fas fa-home"></i> Sảnh chính</div>
+            <div class="nav-item" data-tab="tabTask" onclick="navTab(this)"><i class="fas fa-play"></i> Kiếm tiền</div>
+            <div class="nav-item" data-tab="tabPay" onclick="navTab(this)"><i class="fas fa-wallet"></i> Rút tiền</div>
+            <div class="nav-item text-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</div>
         </div>
 
         <div class="mobile-nav">
-            <a href="#" class="m-nav-item active" onclick="switchTab('tabHome', this)"><i class="fas fa-home"></i>Sảnh</a>
-            <a href="#" class="m-nav-item" onclick="switchTab('tabTask', this)"><i class="fas fa-bolt"></i>Kiếm</a>
-            <a href="#" class="m-nav-item" onclick="switchTab('tabPay', this)"><i class="fas fa-wallet"></i>Rút</a>
-            <a href="#" class="m-nav-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i>Thoát</a>
+            <a href="javascript:void(0)" class="m-nav-item active" data-tab="tabHome" onclick="navTab(this)"><i class="fas fa-home"></i><span>Sảnh</span></a>
+            <a href="javascript:void(0)" class="m-nav-item" data-tab="tabTask" onclick="navTab(this)"><i class="fas fa-bolt"></i><span>Kiếm</span></a>
+            <a href="javascript:void(0)" class="m-nav-item" data-tab="tabPay" onclick="navTab(this)"><i class="fas fa-wallet"></i><span>Rút</span></a>
+            <a href="javascript:void(0)" class="m-nav-item" onclick="logout()"><i class="fas fa-user-circle"></i><span>Thoát</span></a>
         </div>
 
         <div id="mainContent" class="content-area">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h5 class="mb-0 fw-bold">Xin chào, <span id="topNavName" class="text-info">User</span>!</h5>
-                    <small class="text-secondary">Hôm nay bạn thế nào?</small>
-                </div>
+                <div><h5 class="fw-bold mb-0" id="topNavName">Username</h5><small class="text-secondary">Thành viên Elite</small></div>
                 <div class="position-relative">
-                    <img id="userAvatarImg" onclick="toggleUserMenu(event)" src="" class="rounded-circle border border-info" style="width: 45px; height:45px; cursor:pointer">
-                    <div id="userDrop" class="user-dropdown p-3">
-                        <p id="displayEmailMenu" class="small mb-2 text-info">--</p>
-                        <hr class="bg-secondary">
-                        <button class="btn btn-sm btn-outline-danger w-100" onclick="logout()">Đăng xuất</button>
-                    </div>
+                    <img id="userAvatarImg" src="" class="rounded-circle border border-info" style="width: 45px; height:45px;">
                 </div>
             </div>
 
             <div id="tabHome" class="tab-pane active">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card-custom text-center py-4 border-start border-info border-4">
-                            <p class="text-secondary small mb-1">SỐ DƯ HIỆN TẠI</p>
-                            <h2 id="balanceShow" class="fw-bold mb-0 text-white">0 đ</h2>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card-custom py-3">
-                            <div class="d-flex justify-content-between">
-                                <span class="small fw-bold">CẤP ĐỘ: <span id="lvlText" class="text-info">1</span></span>
-                                <span id="expText" class="small text-secondary">0/100 EXP</span>
-                            </div>
-                            <div class="lvl-progress">
-                                <div id="lvlBar" class="lvl-bar"></div>
-                            </div>
-                            <small class="text-secondary" style="font-size: 10px;">* Lên cấp để tăng % tiền thưởng nhiệm vụ!</small>
-                        </div>
-                    </div>
+                <div class="card-custom text-center py-4">
+                    <p class="text-secondary small mb-1">SỐ DƯ KHẢ DỤNG</p>
+                    <h2 id="balanceShow" class="fw-bold mb-0">0 đ</h2>
                 </div>
-
                 <div class="card-custom">
-                    <h6 class="mb-3"><i class="fas fa-calendar-check text-warning"></i> Điểm danh hàng ngày</h6>
-                    <div class="d-flex justify-content-between gap-2" id="dailyList">
-                        </div>
-                    <button class="btn-main mt-3" id="btnCheckin" onclick="doCheckin()">NHẬN QUÀ HÔM NAY</button>
+                    <div class="d-flex justify-content-between small mb-2">
+                        <span>CẤP ĐỘ: <b id="lvlText">1</b></span>
+                        <span id="expText">0/100 EXP</span>
+                    </div>
+                    <div class="lvl-progress"><div id="lvlBar" class="lvl-bar"></div></div>
+                </div>
+                <div class="card-custom text-center">
+                    <h6>Điểm danh hàng ngày</h6>
+                    <button class="btn-main mt-2 w-auto px-5" onclick="doCheckin()">NHẬN 1,000đ</button>
                 </div>
             </div>
 
             <div id="tabTask" class="tab-pane">
-                <div class="card-custom d-flex justify-content-between align-items-center bg-gradient">
-                    <div>
-                        <h6 class="mb-1 fw-bold">Xem Video Monetag</h6>
-                        <p class="small text-secondary mb-0">Thưởng: <span class="text-success" id="rewardValue">500</span>đ + 10 EXP</p>
-                    </div>
+                <div class="card-custom d-flex justify-content-between align-items-center">
+                    <div><h6>Xem QC Monetag</h6><p class="small text-info mb-0">Thưởng: <span id="rewardValue">500</span>đ</p></div>
                     <button class="btn-main w-auto px-4" onclick="doTask()">BẮT ĐẦU</button>
                 </div>
             </div>
 
-            <div id="tabHistory" class="tab-pane">
-                <div class="card-custom">
-                    <h6 class="mb-3">Lịch sử giao dịch</h6>
-                    <div class="table-responsive">
-                        <table class="table table-dark table-hover small">
-                            <thead><tr><th>Nội dung</th><th>Thời gian</th><th>Số tiền</th></tr></thead>
-                            <tbody id="hBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
             <div id="tabPay" class="tab-pane">
-                <div class="card-custom mx-auto" style="max-width: 450px;">
-                    <h5 class="text-center mb-4">Rút tiền về ví</h5>
-                    <div class="mb-3">
-                        <label class="small text-secondary">Số tiền muốn rút (Min 10,000đ)</label>
-                        <input type="number" id="wdAmount" class="form-control bg-dark text-white border-0 py-2" placeholder="VD: 20000">
-                    </div>
-                    <div class="mb-3">
-                        <label class="small text-secondary">Phương thức: <b>ZaloPay / MoMo / Bank</b></label>
-                        <div class="p-3 border border-secondary border-dashed rounded text-center" onclick="document.getElementById('qrInp').click()" style="cursor:pointer">
-                            <i class="fas fa-qrcode fa-2x mb-2 text-secondary"></i><br>
-                            <span class="small">Tải lên mã QR nhận tiền</span>
-                            <input type="file" id="qrInp" hidden accept="image/*" onchange="previewQR(this)">
-                            <img id="qrPreview" style="max-width:150px; display:none; margin: 10px auto; border-radius:10px;">
-                        </div>
-                    </div>
-                    <button class="btn-main" onclick="handleWithdraw()">GỬI YÊU CẦU RÚT TIỀN</button>
-                </div>
-            </div>
-
-            <div id="tabRef" class="tab-pane text-center">
-                <div class="card-custom">
-                    <i class="fas fa-gift fa-3x text-warning mb-3"></i>
-                    <h4>Mời bạn bè - Nhận 1,000đ</h4>
-                    <p class="text-secondary small">Nhận ngay 1,000đ khi bạn bè đăng ký qua link của bạn.</p>
-                    <div class="input-group mb-3">
-                        <input type="text" id="refLink" class="form-control bg-dark text-white border-0" value="https://mmo-elite.vn/ref?id=12345" readonly>
-                        <button class="btn btn-info" onclick="copyRef()">Copy</button>
-                    </div>
+                <div class="card-custom mx-auto" style="max-width: 400px;">
+                    <h5 class="text-center mb-4">Rút tiền</h5>
+                    <input type="number" id="wdAmount" class="form-control bg-dark text-white border-0 mb-3" placeholder="Số tiền rút (Min 10k)">
+                    <button class="btn-main" onclick="handleWithdraw()">XÁC NHẬN</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // CONFIG
-        const AD_LINK = "https://omg10.com/4/10820048";
-        const BASE_REWARD = 500;
-
-        // STATE
-        let db = JSON.parse(localStorage.getItem('mmo_v2_db')) || {
-            user: { name: "Thành viên", email: "user@gmail.com", pass: "123456", level: 1, exp: 0, lastCheckin: null },
-            balance: 0,
-            history: []
+        // --- DỮ LIỆU ---
+        let db = JSON.parse(localStorage.getItem('mmo_fixed_db')) || {
+            user: { name: "Thành viên", email: "admin@gmail.com", pass: "123456", level: 1, exp: 0, lastCheckin: "" },
+            balance: 0
         };
 
-        // UI SYNC
         window.onload = () => {
-            if(localStorage.getItem('mmo_logged') === 'true') showDashboard();
-            renderDaily();
+            if(localStorage.getItem('mmo_is_logged') === 'true') showDashboard();
         };
 
-        function saveData() {
-            localStorage.setItem('mmo_v2_db', JSON.stringify(db));
-        }
+        function save() { localStorage.setItem('mmo_fixed_db', JSON.stringify(db)); }
 
-        // AUTH
+        // --- AUTH LOGIC ---
         function toggleAuth(isReg) {
             document.getElementById('loginForm').style.display = isReg ? 'none' : 'block';
             document.getElementById('regForm').style.display = isReg ? 'block' : 'none';
@@ -285,22 +193,26 @@
             const n = document.getElementById('nameR').value;
             const e = document.getElementById('emailR').value;
             const p = document.getElementById('passR').value;
-            if(!n || !e || p.length < 6) return Swal.fire("Lỗi", "Vui lòng nhập đúng định dạng!", "error");
             
-            db.user.name = n; db.user.email = e; db.user.pass = p;
-            saveData();
-            Swal.fire("Thành công", "Đã tạo tài khoản!", "success");
+            if(!n || !e || p.length < 6) {
+                return Swal.fire("Lỗi", "Vui lòng nhập đầy đủ và mật khẩu ít nhất 6 ký tự!", "error");
+            }
+            
+            db.user = { name: n, email: e, pass: p, level: 1, exp: 0, lastCheckin: "" };
+            save();
+            Swal.fire("Thành công", "Đã tạo tài khoản, hãy đăng nhập!", "success");
             toggleAuth(false);
         }
 
         function handleLogin() {
             const e = document.getElementById('emailL').value;
             const p = document.getElementById('passL').value;
+            
             if(e === db.user.email && p === db.user.pass) {
-                localStorage.setItem('mmo_logged', 'true');
+                localStorage.setItem('mmo_is_logged', 'true');
                 showDashboard();
             } else {
-                Swal.fire("Thất bại", "Sai thông tin đăng nhập!", "error");
+                Swal.fire("Lỗi", "Tài khoản hoặc mật khẩu không đúng!", "error");
             }
         }
 
@@ -311,90 +223,21 @@
         }
 
         function logout() {
-            localStorage.setItem('mmo_logged', 'false');
+            localStorage.setItem('mmo_is_logged', 'false');
             location.reload();
         }
 
-        // CORE LOGIC
+        // --- HÀNH ĐỘNG ---
         function updateUI() {
             document.getElementById('topNavName').innerText = db.user.name;
-            document.getElementById('displayEmailMenu').innerText = db.user.email;
-            document.getElementById('userAvatarImg').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${db.user.name}`;
             document.getElementById('balanceShow').innerText = db.balance.toLocaleString() + " đ";
+            document.getElementById('lvlText').innerText = db.user.level;
+            document.getElementById('expText').innerText = db.user.exp + "/100 EXP";
+            document.getElementById('lvlBar').style.width = db.user.exp + "%";
+            document.getElementById('userAvatarImg').src = `https://api.dicebear.com/7.x/initials/svg?seed=${db.user.name}`;
             
-            // Level logic
-            const lvl = db.user.level;
-            const exp = db.user.exp;
-            const nextExp = lvl * 100;
-            document.getElementById('lvlText').innerText = lvl;
-            document.getElementById('expText').innerText = `${exp}/${nextExp} EXP`;
-            document.getElementById('lvlBar').style.width = (exp / nextExp * 100) + "%";
-            
-            // Reward bonus (Level 1: +0%, Level 2: +5%...)
-            const bonus = (lvl - 1) * 0.05;
-            document.getElementById('rewardValue').innerText = Math.floor(BASE_REWARD * (1 + bonus));
+            const bonus = (db.user.level - 1) * 2
 
-            // History
-            document.getElementById('hBody').innerHTML = db.history.map(h => `
-                <tr>
-                    <td>${h.txt}</td>
-                    <td>${h.time}</td>
-                    <td class="${h.amt > 0 ? 'text-success' : 'text-danger'}">${h.amt > 0 ? '+' : ''}${h.amt.toLocaleString()}đ</td>
-                </tr>
-            `).reverse().join('');
-
-            saveData();
-        }
-
-        function doTask() {
-            window.open(AD_LINK, "_blank");
-            let timer = 30;
-            Swal.fire({
-                title: 'ĐANG KIỂM TRA...',
-                html: `Vui lòng không đóng quảng cáo: <b>${timer}s</b>`,
-                allowOutsideClick: false, showConfirmButton: false,
-                background: '#0f0f12', color: '#fff',
-                didOpen: () => {
-                    const b = Swal.getHtmlContainer().querySelector('b');
-                    const intv = setInterval(() => {
-                        timer--;
-                        b.textContent = timer + "s";
-                        if(timer <= 0) {
-                            clearInterval(intv);
-                            completeTask();
-                            Swal.close();
-                        }
-                    }, 1000);
-                }
-            });
-        }
-
-        function completeTask() {
-            const bonus = (db.user.level - 1) * 0.05;
-            const finalAmt = Math.floor(BASE_REWARD * (1 + bonus));
-            
-            db.balance += finalAmt;
-            db.user.exp += 15;
-            
-            // Level Up Check
-            if(db.user.exp >= db.user.level * 100) {
-                db.user.exp = 0;
-                db.user.level++;
-                Swal.fire("LÊN CẤP!", `Chúc mừng bạn đạt Cấp ${db.user.level}`, "success");
-            }
-
-            db.history.push({ txt: "Xem quảng cáo Monetag", time: new Date().toLocaleTimeString(), amt: finalAmt });
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            updateUI();
-        }
-
-        // DAILY CHECKIN
-        function renderDaily() {
-            const days = ['T2','T3','T4','T5','T6','T7','CN'];
-            const container = document.getElementById('dailyList');
-            container.innerHTML = days.map((d, i) => `
-                <div class="text-center p-2 rounded ${i === 0 ? 'bg-primary' : 'bg-dark'}" style="flex:1; font-size:10px;">
-                    ${
 
 
 
