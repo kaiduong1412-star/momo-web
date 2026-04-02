@@ -5,97 +5,101 @@
     <meta name="monetag" content="850db8968160ab944828b18246ae21aa">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiếm Tiền Online - Lớp 11 MMO</title>
-    
+    <title>Hệ Thống Kiếm Tiền Online</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        body { background-color: #0f0f12; color: #ffffff; font-family: 'Segoe UI', sans-serif; }
-        .header-card { background: linear-gradient(135deg, #ff007f, #8e2de2); border-radius: 20px; padding: 25px; margin-top: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .balance-num { font-size: 2.5rem; font-weight: 900; letter-spacing: 1px; }
-        .card-custom { background: #1c1c21; border: 1px solid #2d2d35; border-radius: 15px; padding: 15px; transition: 0.3s; }
-        .card-custom:hover { transform: translateY(-3px); border-color: #ff007f; }
-        .btn-main { background: #ff007f; border: none; font-weight: bold; padding: 10px 20px; border-radius: 10px; color: white; }
-        .progress { background-color: #2d2d35; border-radius: 10px; }
-        .nav-bottom { background: #16161a; border-top: 1px solid #2d2d35; position: fixed; bottom: 0; width: 100%; padding: 10px 0; }
-        .nav-item { text-align: center; color: #888; font-size: 0.8rem; cursor: pointer; }
-        .nav-item.active { color: #ff007f; }
+        :root { --primary: #ff007f; --bg: #0f0f12; --card: #1c1c21; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; padding-bottom: 80px; }
+        
+        .header-box { 
+            background: linear-gradient(135deg, var(--primary), #8e2de2); 
+            border-radius: 20px; padding: 30px; margin-top: 20px; 
+            text-align: center; box-shadow: 0 10px 25px rgba(255, 0, 127, 0.2);
+        }
+        .balance-value { font-size: 3rem; font-weight: 900; margin: 10px 0; }
+        
+        .task-card { 
+            background: var(--card); border: 1px solid #2d2d35; 
+            border-radius: 15px; padding: 25px; margin-top: 30px;
+            text-align: center;
+        }
+        .btn-action { 
+            background: var(--primary); border: none; color: #fff; 
+            font-weight: bold; padding: 15px 40px; border-radius: 12px; font-size: 1.2rem;
+            width: 100%; transition: 0.3s;
+        }
+        .btn-action:active { transform: scale(0.95); }
+
+        .nav-bottom { 
+            background: #16161a; border-top: 1px solid #2d2d35; 
+            position: fixed; bottom: 0; width: 100%; padding: 12px 0;
+        }
+        .nav-link-custom { text-align: center; color: #888; text-decoration: none; flex: 1; font-size: 0.8rem; }
+        .nav-link-custom.active { color: var(--primary); }
     </style>
 </head>
 <body>
 
-<div class="container pb-5 mb-5">
-    <div class="header-card text-center mb-4">
-        <p class="mb-1 opacity-75">SỐ DƯ CỦA BẠN</p>
-        <div class="balance-num"><span id="user-balance">0</span><small style="font-size: 1rem;">đ</small></div>
-        <button class="btn btn-light btn-sm mt-2 fw-bold" onclick="withdraw()">Rút Tiền (Min 10k)</button>
+<div class="container mt-3">
+    <div class="header-box">
+        <div style="font-size: 0.9rem; opacity: 0.8;">SỐ DƯ CỦA BẠN</div>
+        <div class="balance-value"><span id="balance">0</span><small style="font-size: 1.2rem;">đ</small></div>
+        <button class="btn btn-light btn-sm fw-bold px-4" onclick="handleWithdraw()">RÚT TIỀN (MIN 10K)</button>
     </div>
 
-    <h5 class="mb-3"><i class="fas fa-tasks text-warning"></i> Nhiệm vụ xem quảng cáo</h5>
-    <div id="taskList">
+    <div class="task-card">
+        <h4 class="mb-3 text-primary"><i class="fas fa-gift"></i> Nhiệm vụ hàng ngày</h4>
+        <p class="text-white-50">Xem quảng cáo 30 giây để nhận thưởng</p>
+        <div class="d-flex justify-content-center gap-3 mb-4">
+            <span class="badge bg-secondary"><i class="fas fa-clock"></i> 30 giây</span>
+            <span class="badge bg-success"><i class="fas fa-coins"></i> +250đ</span>
         </div>
+        <button class="btn-action" onclick="startTask()">BẮT ĐẦU XEM</button>
+    </div>
 </div>
 
-<div class="nav-bottom d-flex justify-content-around">
-    <div class="nav-item active"><i class="fas fa-home d-block fa-lg"></i>Trang chủ</div>
-    <div class="nav-item" onclick="Swal.fire('Tính năng','Đang phát triển...','info')"><i class="fas fa-history d-block fa-lg"></i>Lịch sử</div>
-    <div class="nav-item" onclick="Swal.fire('Hỗ trợ','Zalo: 0xxx.xxx.xxx','success')"><i class="fas fa-user d-block fa-lg"></i>Tài khoản</div>
+<div class="nav-bottom d-flex">
+    <a href="#" class="nav-link-custom active"><i class="fas fa-home fa-lg d-block"></i>Trang chủ</a>
+    <a href="#" class="nav-link-custom" onclick="Swal.fire('Lịch sử','Chưa có giao dịch nào!','info')"><i class="fas fa-history fa-lg d-block"></i>Lịch sử</a>
+    <a href="#" class="nav-link-custom" onclick="Swal.fire('Hỗ trợ','Liên hệ Admin để rút tiền!','success')"><i class="fas fa-user-circle fa-lg d-block"></i>Hỗ trợ</a>
 </div>
 
 <script>
-    // 1. DỮ LIỆU NHIỆM VỤ (Đã dán link Monetag của bạn)
-    const MONETAG_LINK = "https://omg10.com/4/10820048";
-    
-    const adTasks = [
-        { id: 1, name: "Nhiệm vụ Đồng", link: MONETAG_LINK, time: 15, price: 100, color: "#cd7f32" },
-        { id: 2, name: "Nhiệm vụ Bạc", link: MONETAG_LINK, time: 30, price: 250, color: "#c0c0c0" },
-        { id: 3, name: "Nhiệm vụ Vàng", link: MONETAG_LINK, time: 60, price: 500, color: "#ffd700" }
-    ];
+    // --- CẤU HÌNH ---
+    const AD_LINK = "https://omg10.com/4/10820048"; // Link Monetag của bạn
+    const REWARD = 250; // Số tiền nhận được
+    const WAIT_TIME = 30; // Thời gian chờ (giây)
 
-    // Khởi tạo dữ liệu người dùng
-    let balance = parseInt(localStorage.getItem('balance')) || 0;
-
-    function save() {
-        localStorage.setItem('balance', balance);
-    }
+    let balance = parseInt(localStorage.getItem('mmo_balance')) || 0;
 
     function updateUI() {
-        document.getElementById('user-balance').innerText = balance.toLocaleString();
+        document.getElementById('balance').innerText = balance.toLocaleString();
     }
 
-    // Hiển thị danh sách nhiệm vụ ra màn hình
-    function renderAdTasks() {
-        const container = document.getElementById('taskList');
-        container.innerHTML = adTasks.map(t => `
-            <div class="card-custom d-flex justify-content-between align-items-center mb-3" style="border-left: 5px solid ${t.color}">
-                <div>
-                    <b style="color:${t.color}">${t.name}</b><br>
-                    <small class="text-white-50">${t.time}s | +${t.price}đ</small>
-                </div>
-                <button class="btn btn-sm px-3 fw-bold" style="background:${t.color}; color:#000" onclick="handleWatchAd(${t.id})">LÀM</button>
-            </div>
-        `).join('');
+    function save() {
+        localStorage.setItem('mmo_balance', balance);
     }
 
-    // Xử lý khi bấm nút "LÀM"
-    function handleWatchAd(taskId) {
-        const task = adTasks.find(t => t.id === taskId);
-        
-        // Mở link quảng cáo Monetag của bạn
-        window.open(task.link, "_blank");
+    // --- XỬ LÝ NHIỆM VỤ ---
+    function startTask() {
+        // Mở quảng cáo Monetag
+        window.open(AD_LINK, "_blank");
 
-        let timeLeft = task.time;
+        let timeLeft = WAIT_TIME;
         
         Swal.fire({
             title: 'ĐANG XỬ LÝ...',
             html: `
-                <div class="p-3">
-                    <p>Vui lòng đợi <b id="timer-num" style="color:${task.color}">${timeLeft}</b> giây để nhận thưởng.</p>
-                    <div class="progress" style="height: 10px;">
-                        <div id="pb" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%; background:${task.color}"></div>
+                <div class="py-3">
+                    <p>Đang kiểm tra quảng cáo... <br><b id="clock" style="font-size:2rem; color:#ff007f">${timeLeft}s</b></p>
+                    <div class="progress" style="height: 10px; border-radius: 10px; background: #222;">
+                        <div id="p-bar" class="progress-bar progress-bar-striped progress-bar-animated" 
+                             style="width: 0%; background:#ff007f"></div>
                     </div>
                 </div>
             `,
@@ -104,28 +108,33 @@
             background: '#1c1c21',
             color: '#fff',
             didOpen: () => {
-                const timerNum = document.getElementById('timer-num');
-                const pb = document.getElementById('pb');
+                const clock = document.getElementById('clock');
+                const pBar = document.getElementById('p-bar');
                 
-                const countdown = setInterval(() => {
+                const timer = setInterval(() => {
                     timeLeft--;
-                    timerNum.innerText = timeLeft;
-                    pb.style.width = ((task.time - timeLeft) / task.time * 100) + "%";
+                    if(clock) clock.innerText = timeLeft + "s";
+                    if(pBar) pBar.style.width = ((WAIT_TIME - timeLeft) / WAIT_TIME * 100) + "%";
 
                     if (timeLeft <= 0) {
-                        clearInterval(countdown);
+                        clearInterval(timer);
                         Swal.close();
-                        // Cộng thưởng
-                        balance += task.price;
+                        
+                        // CỘNG TIỀN
+                        balance += REWARD;
                         save();
                         updateUI();
-                        // Hiệu ứng pháo hoa
-                        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+
+                        // Hiệu ứng ăn mừng
+                        confetti({ particleCount: 150, spread: 60, origin: { y: 0.7 } });
+
                         Swal.fire({
                             icon: 'success',
-                            title: 'HOÀN THÀNH!',
-                            text: `Bạn nhận được ${task.price}đ`,
-                            background: '#1c1c21', color: '#fff'
+                            title: 'THÀNH CÔNG',
+                            text: `Bạn đã nhận được ${REWARD}đ!`,
+                            background: '#1c1c21',
+                            color: '#fff',
+                            confirmButtonColor: '#ff007f'
                         });
                     }
                 }, 1000);
@@ -133,33 +142,33 @@
         });
     }
 
-    function withdraw() {
+    function handleWithdraw() {
         if(balance < 10000) {
-            Swal.fire('Lỗi','Bạn cần ít nhất 10,000đ để rút tiền!','error');
-        } else {
-            Swal.fire({
-                title: 'Rút Tiền',
-                text: 'Vui lòng nhập số tài khoản ngân hàng hoặc số MOMO:',
-                input: 'text',
-                showCancelButton: true,
-                confirmButtonText: 'Xác nhận rút',
-                background: '#1c1c21', color: '#fff'
-            }).then((result) => {
-                if (result.isConfirmed && result.value) {
-                    Swal.fire('Đã gửi yêu cầu','Admin sẽ chuyển tiền trong 24h!','success');
-                    balance = 0; save(); updateUI();
-                }
-            });
+            Swal.fire({ icon: 'error', title: 'Lỗi', text: 'Tối thiểu 10,000đ mới có thể rút!', background: '#1c1c21', color: '#fff' });
+            return;
         }
+        Swal.fire({
+            title: 'Rút tiền',
+            text: 'Nhập SĐT MoMo hoặc STK Ngân hàng:',
+            input: 'text',
+            showCancelButton: true,
+            confirmButtonText: 'Gửi yêu cầu',
+            background: '#1c1c21', color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed && result.value) {
+                Swal.fire('Đã gửi!','Yêu cầu rút tiền của bạn đã được gửi tới Admin.','success');
+                balance = 0; save(); updateUI();
+            }
+        });
     }
 
-    // Khởi chạy
-    renderAdTasks();
-    updateUI();
+    // Khởi động
+    window.onload = updateUI;
 </script>
 
 </body>
 </html>
+
 
 
 
